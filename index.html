@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartKids Tuition Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2196F3;
+            --primary-dark: #1976D2;
+            --secondary: #FF6B9D;
+            --accent: #FFA726;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --danger: #F44336;
+            --neutral-50: #FAFAFA;
+            --neutral-100: #F5F5F5;
+            --neutral-200: #EEEEEE;
+            --neutral-300: #E0E0E0;
+            --neutral-700: #616161;
+            --neutral-800: #424242;
+            --neutral-900: #212121;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 1rem;
+            color: var(--neutral-800);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header with colorful SMARTKids branding */
+        .header {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-section h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.25rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .logo-section p {
+            color: rgba(255,255,255,0.95);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .view-switcher {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .view-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: white;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .view-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .view-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            min-height: 500px;
+        }
+
+        .view {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Application Form Styles */
+        .form-banner {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-banner::after {
+            content: '📚 ✏️ 💡 🌍';
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+
+        .form-banner h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-banner p {
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background: var(--neutral-50);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .info-box h3 {
+            color: var(--accent);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-box li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .info-box li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--neutral-200);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--neutral-800);
+        }
+
+        .form-group label .required {
+            color: var(--danger);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid var(--neutral-200);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Nunito', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Fredoka', sans-serif;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success) 0%, #388E3C 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .form-footer {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--neutral-200);
+            text-align: center;
+        }
+
+        /* Approval Email Styles */
+        .email-preview {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border: 1px solid var(--neutral-200);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .email-header {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .email-header h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .email-body {
+            padding: 2rem;
+        }
+
+        .email-body p {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            color: var(--neutral-800);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #E3F2FD 0%, #F3E5F5 100%);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box h3 {
+            color: var(--primary);
+            font-family: 'Fredoka', sans-serif;
+            margin-bottom: 1rem;
+        }
+
+        .highlight-box .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .highlight-box .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .highlight-box .label {
+            font-weight: 600;
+            color: var(--neutral-700);
+        }
+
+        .highlight-box .value {
+            color: var(--neutral-900);
+            font-weight: 700;
+        }
+
+        /* Payment Flow Styles */
+        .payment-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .payment-summary {
+            background: linear-gradient(135deg, #E8F5E9 0%, #FFF9C4 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-summary h3 {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+
+        .amount-display {
+            font-size: 3rem;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            color: var(--success);
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .payment-methods {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .payment-method {
+            border: 2px solid var(--neutral-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary);
+            background: var(--neutral-50);
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary);
+            background: #E3F2FD;
+        }
+
+        .payment-method .icon {
+            font-size: 2rem;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .payment-method .info h4 {
+            font-family: 'Fredoka', sans-serif;
+            margin-bottom: 0.25rem;
+        }
+
+        .payment-method .info p {
+            font-size: 0.9rem;
+            color: var(--neutral-700);
+        }
+
+        .qr-display {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            border: 2px dashed var(--primary);
+            margin: 2rem 0;
+        }
+
+        .qr-placeholder {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 1rem;
+            background: var(--neutral-100);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+        }
+
+        /* Parent Status View */
+        .status-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .status-card h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .info-item {
+            padding: 1.5rem;
+            background: var(--neutral-50);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .info-item label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--neutral-700);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .info-item .value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--neutral-900);
+        }
+
+        /* Visitation Leader Dashboard */
+        .dashboard-header h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2rem;
+            color: var(--neutral-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .stat-card .label {
+            font-size: 0.9rem;
+            color: var(--neutral-700);
+            margin-top: 0.5rem;
+        }
+
+        .student-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .student-card {
+            background: white;
+            border: 2px solid var(--neutral-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .student-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .student-info h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.2rem;
+            color: var(--neutral-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .student-meta {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 0.75rem;
+        }
+
+        .meta-tag {
+            font-size: 0.85rem;
+            padding: 0.35rem 0.85rem;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .meta-tag.status-approved {
+            background: #C8E6C9;
+            color: #2E7D32;
+        }
+
+        .meta-tag.status-pending {
+            background: #FFF9C4;
+            color: #F57F17;
+        }
+
+        .meta-tag.fee-waiver {
+            background: #B3E5FC;
+            color: #01579B;
+        }
+
+        .meta-tag.fee-full {
+            background: #FFCCBC;
+            color: #BF360C;
+        }
+
+        .meta-tag.payment-paid {
+            background: #C8E6C9;
+            color: #2E7D32;
+        }
+
+        .meta-tag.payment-pending {
+            background: #FFF9C4;
+            color: #F57F17;
+        }
+
+        /* Admin View Styles */
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .admin-header h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2rem;
+            color: var(--neutral-900);
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            padding: 1rem;
+            background: var(--neutral-50);
+            border-radius: 12px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--neutral-700);
+        }
+
+        .filter-group select {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--neutral-200);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .applications-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 2rem;
+        }
+
+        .applications-table thead {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        .applications-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .applications-table th:first-child {
+            border-top-left-radius: 12px;
+        }
+
+        .applications-table th:last-child {
+            border-top-right-radius: 12px;
+        }
+
+        .applications-table tbody tr {
+            background: white;
+            border-bottom: 1px solid var(--neutral-200);
+            transition: background 0.2s ease;
+        }
+
+        .applications-table tbody tr:hover {
+            background: var(--neutral-50);
+        }
+
+        .applications-table td {
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .app-id {
+            font-family: 'Courier New', monospace;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-pill.new {
+            background: #E3F2FD;
+            color: #1565C0;
+        }
+
+        .status-pill.reviewing {
+            background: #FFF9C4;
+            color: #F57F17;
+        }
+
+        .status-pill.approved {
+            background: #C8E6C9;
+            color: #2E7D32;
+        }
+
+        .status-pill.rejected {
+            background: #FFCDD2;
+            color: #C62828;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .icon-btn {
+            width: 2rem;
+            height: 2rem;
+            border: none;
+            background: var(--neutral-100);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .icon-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Application Review Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+        }
+
+        .close-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .review-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--neutral-200);
+        }
+
+        .review-section:last-child {
+            border-bottom: none;
+        }
+
+        .review-section h4 {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .detail-item {
+            padding: 1rem;
+            background: var(--neutral-50);
+            border-radius: 8px;
+        }
+
+        .detail-item .label {
+            font-size: 0.85rem;
+            color: var(--neutral-700);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .detail-item .value {
+            font-size: 1rem;
+            color: var(--neutral-900);
+            font-weight: 600;
+        }
+
+        .fee-calculator {
+            background: linear-gradient(135deg, #FFF9C4 0%, #FFECB3 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+
+        .fee-calculator h4 {
+            color: var(--warning);
+            margin-bottom: 1rem;
+        }
+
+        .calculator-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .calculator-row:last-child {
+            border-bottom: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--warning);
+        }
+
+        .waiver-options {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .waiver-option {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid var(--neutral-200);
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .waiver-option:hover {
+            border-color: var(--primary);
+            background: var(--neutral-50);
+        }
+
+        .waiver-option.selected {
+            border-color: var(--success);
+            background: #E8F5E9;
+        }
+
+        .waiver-option .amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 0.5rem;
+        }
+
+        .waiver-option .description {
+            font-size: 0.85rem;
+            color: var(--neutral-700);
+        }
+
+        .assignment-section {
+            background: #E3F2FD;
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .assignment-section h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .zone-select {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .zone-card {
+            padding: 1rem;
+            background: white;
+            border: 2px solid var(--neutral-200);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .zone-card:hover {
+            border-color: var(--primary);
+        }
+
+        .zone-card.selected {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .zone-card .zone-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .zone-card .leader-name {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .decision-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--neutral-200);
+        }
+
+        .decision-actions .btn {
+            flex: 1;
+        }
+
+        .btn-reject {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-reject:hover {
+            background: #D32F2F;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(244, 67, 54, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .applications-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .modal-content {
+                max-height: 95vh;
+            }
+
+            .waiver-options {
+                flex-direction: column;
+            }
+
+            .decision-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .main-content {
+                padding: 1.5rem;
+            }
+
+            .student-card {
+                grid-template-columns: 1fr;
+            }
+
+            .logo-section h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1>SMARTKids Programme</h1>
+                    <p>City Harvest Children Services</p>
+                </div>
+                <div class="view-switcher">
+                    <button class="view-btn active" onclick="switchView('form')">Application Form</button>
+                    <button class="view-btn" onclick="switchView('admin')">Admin Review</button>
+                    <button class="view-btn" onclick="switchView('approval')">Approval Email</button>
+                    <button class="view-btn" onclick="switchView('payment')">Payment</button>
+                    <button class="view-btn" onclick="switchView('parent')">Parent Dashboard</button>
+                    <button class="view-btn" onclick="switchView('leader')">Leader View</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- APPLICATION FORM VIEW -->
+            <div id="form-view" class="view active">
+                <div class="form-banner">
+                    <h2>Registration Form</h2>
+                    <p>Welcome! Please fill out this form to register your child for the SMARTKids Tuition Programme.</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>Programme Information</h3>
+                    <p><strong>Classes Available:</strong></p>
+                    <ul>
+                        <li><strong>English and Math</strong> for Nursery to Primary 6<br>Saturday 1:00 PM - 2:30 PM | Starting 10 January 2026</li>
+                        <li><strong>Standard Chinese</strong> for Primary 4 & 5<br>Wednesday 7:00 PM - 8:00 PM | Starting 7 January 2026</li>
+                        <li><strong>Standard Chinese</strong> for Primary 6<br>Wednesday 7:15 PM - 8:15 PM | Starting 7 January 2026</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Registration Fee:</strong> $50 (one-time, non-refundable for 2026)</p>
+                    <p><strong>Note:</strong> Priority given to children from low-income families who do not have tuition.</p>
+                </div>
+
+                <form id="application-form">
+                    <div class="form-section">
+                        <h3>Parent/Guardian Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Full Name <span class="required">*</span></label>
+                                <input type="text" required placeholder="Enter parent/guardian name">
+                            </div>
+                            <div class="form-group">
+                                <label>Email <span class="required">*</span></label>
+                                <input type="email" required placeholder="your.email@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Mobile Number <span class="required">*</span></label>
+                                <input type="tel" required placeholder="+65 9123 4567">
+                            </div>
+                            <div class="form-group">
+                                <label>Relationship to Child <span class="required">*</span></label>
+                                <select required>
+                                    <option value="">Select...</option>
+                                    <option value="father">Father</option>
+                                    <option value="mother">Mother</option>
+                                    <option value="guardian">Legal Guardian</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Student Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Student's Full Name <span class="required">*</span></label>
+                                <input type="text" required placeholder="Enter student's full name">
+                            </div>
+                            <div class="form-group">
+                                <label>Date of Birth <span class="required">*</span></label>
+                                <input type="date" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Current School <span class="required">*</span></label>
+                                <input type="text" required placeholder="Enter school name">
+                            </div>
+                            <div class="form-group">
+                                <label>Current Grade Level <span class="required">*</span></label>
+                                <select required>
+                                    <option value="">Select...</option>
+                                    <option value="nursery">Nursery</option>
+                                    <option value="k1">Kindergarten 1</option>
+                                    <option value="k2">Kindergarten 2</option>
+                                    <option value="p1">Primary 1</option>
+                                    <option value="p2">Primary 2</option>
+                                    <option value="p3">Primary 3</option>
+                                    <option value="p4">Primary 4</option>
+                                    <option value="p5">Primary 5</option>
+                                    <option value="p6">Primary 6</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Class Selection</h3>
+                        <div class="form-group">
+                            <label>Which class(es) would you like to register for? <span class="required">*</span></label>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="english-math" name="classes" value="english-math">
+                                <label for="english-math">English and Math (Saturday 1:00-2:30 PM)</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="chinese-p45" name="classes" value="chinese-p45">
+                                <label for="chinese-p45">Standard Chinese for P4 & P5 (Wednesday 7:00-8:00 PM)</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="chinese-p6" name="classes" value="chinese-p6">
+                                <label for="chinese-p6">Standard Chinese for P6 (Wednesday 7:15-8:15 PM)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Household Information (for Fee Waiver Assessment)</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Monthly Household Income</label>
+                                <input type="number" placeholder="Enter amount in SGD">
+                            </div>
+                            <div class="form-group">
+                                <label>Number of People in Household</label>
+                                <input type="number" placeholder="Enter number">
+                            </div>
+                            <div class="form-group">
+                                <label>Does your child currently have tuition?</label>
+                                <select>
+                                    <option value="">Select...</option>
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Additional Information</h3>
+                        <div class="form-group">
+                            <label>Any special learning needs or requirements we should know about?</label>
+                            <textarea placeholder="Please share any relevant information..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>How did you hear about this programme?</label>
+                            <select>
+                                <option value="">Select...</option>
+                                <option value="church">Church announcement</option>
+                                <option value="friend">Friend/Family</option>
+                                <option value="visitation-leader">Visitation leader</option>
+                                <option value="social-media">Social media</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary" onclick="event.preventDefault(); alert('Application submitted! In production, this would save to database and send confirmation email.');">
+                            Submit Application
+                        </button>
+                        <p style="margin-top: 1rem; color: var(--neutral-700); font-size: 0.9rem;">
+                            After submission, you'll receive a confirmation email and updates on your application status within 7 working days.
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ADMIN REVIEW VIEW -->
+            <div id="admin-view" class="view">
+                <div class="admin-header">
+                    <div>
+                        <h2>Application Review Dashboard</h2>
+                        <p style="color: var(--neutral-700);">Administrator: Rev. Pastor John Tan</p>
+                    </div>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" onclick="alert('Export to Excel feature')">📊 Export Data</button>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number">15</div>
+                        <div class="label">New Applications</div>
+                    </div>
+                    <div class="stat-card" style="border-left-color: var(--warning);">
+                        <div class="number" style="color: var(--warning);">8</div>
+                        <div class="label">Under Review</div>
+                    </div>
+                    <div class="stat-card" style="border-left-color: var(--success);">
+                        <div class="number" style="color: var(--success);">42</div>
+                        <div class="label">Approved This Term</div>
+                    </div>
+                    <div class="stat-card" style="border-left-color: var(--danger);">
+                        <div class="number" style="color: var(--danger);">3</div>
+                        <div class="label">Rejected</div>
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <label>Status</label>
+                        <select>
+                            <option value="all">All Applications</option>
+                            <option value="new" selected>New (Pending Review)</option>
+                            <option value="reviewing">Under Review</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Class</label>
+                        <select>
+                            <option value="all">All Classes</option>
+                            <option value="english-math">English & Math</option>
+                            <option value="chinese-p45">Chinese P4-P5</option>
+                            <option value="chinese-p6">Chinese P6</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Sort By</label>
+                        <select>
+                            <option value="date-desc">Newest First</option>
+                            <option value="date-asc">Oldest First</option>
+                            <option value="income-asc">Income (Low to High)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <table class="applications-table">
+                    <thead>
+                        <tr>
+                            <th>App ID</th>
+                            <th>Student Name</th>
+                            <th>Grade</th>
+                            <th>Class(es)</th>
+                            <th>Household Income</th>
+                            <th>Submitted</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="app-id">TN2025-0345</span></td>
+                            <td><strong>Emily Chen</strong><br><span style="font-size: 0.85rem; color: var(--neutral-700);">Parent: Mrs. Chen</span></td>
+                            <td>Primary 2</td>
+                            <td>English & Math</td>
+                            <td>$2,400 / 4 pax<br><span style="font-size: 0.85rem; color: var(--danger); font-weight: 600;">$600/pax</span></td>
+                            <td>21 Jan 2026<br><span style="font-size: 0.85rem; color: var(--neutral-700);">2 days ago</span></td>
+                            <td><span class="status-pill new">New</span></td>
+                            <td>
+                                <div class="quick-actions">
+                                    <button class="icon-btn" onclick="openReviewModal('TN2025-0345', 'Emily Chen', 'P2', 2400, 4)" title="Review">👁️</button>
+                                    <button class="icon-btn" onclick="alert('Download PDF application')" title="Download">📄</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="app-id">TN2025-0344</span></td>
+                            <td><strong>Joshua Ng</strong><br><span style="font-size: 0.85rem; color: var(--neutral-700);">Parent: Mr. & Mrs. Ng</span></td>
+                            <td>Primary 4</td>
+                            <td>English & Math, Chinese</td>
+                            <td>$4,800 / 3 pax<br><span style="font-size: 0.85rem; color: var(--warning); font-weight: 600;">$1,600/pax</span></td>
+                            <td>20 Jan 2026<br><span style="font-size: 0.85rem; color: var(--neutral-700);">3 days ago</span></td>
+                            <td><span class="status-pill new">New</span></td>
+                            <td>
+                                <div class="quick-actions">
+                                    <button class="icon-btn" onclick="openReviewModal('TN2025-0344', 'Joshua Ng', 'P4', 4800, 3)" title="Review">👁️</button>
+                                    <button class="icon-btn" onclick="alert('Download PDF application')" title="Download">📄</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="app-id">TN2025-0343</span></td>
+                            <td><strong>Rachel Koh</strong><br><span style="font-size: 0.85rem; color: var(--neutral-700);">Parent: Mrs. Koh</span></td>
+                            <td>Primary 4</td>
+                            <td>Chinese</td>
+                            <td>$3,200 / 4 pax<br><span style="font-size: 0.85rem; color: var(--warning); font-weight: 600;">$800/pax</span></td>
+                            <td>19 Jan 2026<br><span style="font-size: 0.85rem; color: var(--neutral-700);">4 days ago</span></td>
+                            <td><span class="status-pill reviewing">Reviewing</span></td>
+                            <td>
+                                <div class="quick-actions">
+                                    <button class="icon-btn" onclick="openReviewModal('TN2025-0343', 'Rachel Koh', 'P4', 3200, 4)" title="Review">👁️</button>
+                                    <button class="icon-btn" onclick="alert('Download PDF application')" title="Download">📄</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="app-id">TN2025-0342</span></td>
+                            <td><strong>Sarah Tan</strong><br><span style="font-size: 0.85rem; color: var(--neutral-700);">Parent: Mrs. Tan</span></td>
+                            <td>Primary 3</td>
+                            <td>English & Math</td>
+                            <td>$6,000 / 4 pax<br><span style="font-size: 0.85rem; color: var(--success); font-weight: 600;">$1,500/pax</span></td>
+                            <td>18 Jan 2026<br><span style="font-size: 0.85rem; color: var(--neutral-700);">5 days ago</span></td>
+                            <td><span class="status-pill approved">Approved</span></td>
+                            <td>
+                                <div class="quick-actions">
+                                    <button class="icon-btn" onclick="openReviewModal('TN2025-0342', 'Sarah Tan', 'P3', 6000, 4)" title="View">👁️</button>
+                                    <button class="icon-btn" onclick="alert('Download PDF application')" title="Download">📄</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="app-id">TN2025-0341</span></td>
+                            <td><strong>Marcus Lim</strong><br><span style="font-size: 0.85rem; color: var(--neutral-700);">Parent: Mr. Lim</span></td>
+                            <td>Primary 5</td>
+                            <td>English & Math, Chinese</td>
+                            <td>$1,800 / 5 pax<br><span style="font-size: 0.85rem; color: var(--danger); font-weight: 600;">$360/pax</span></td>
+                            <td>17 Jan 2026<br><span style="font-size: 0.85rem; color: var(--neutral-700);">6 days ago</span></td>
+                            <td><span class="status-pill approved">Approved</span></td>
+                            <td>
+                                <div class="quick-actions">
+                                    <button class="icon-btn" onclick="openReviewModal('TN2025-0341', 'Marcus Lim', 'P5', 1800, 5)" title="View">👁️</button>
+                                    <button class="icon-btn" onclick="alert('Download PDF application')" title="Download">📄</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- REVIEW MODAL -->
+            <div id="review-modal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Application Review: <span id="modal-app-id">TN2025-0345</span></h3>
+                        <button class="close-btn" onclick="closeReviewModal()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="review-section">
+                            <h4>📋 Student Information</h4>
+                            <div class="detail-grid">
+                                <div class="detail-item">
+                                    <div class="label">Student Name</div>
+                                    <div class="value" id="modal-student-name">Emily Chen</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="label">Grade Level</div>
+                                    <div class="value" id="modal-grade">Primary 2</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="label">Date of Birth</div>
+                                    <div class="value">15 March 2018</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="label">Current School</div>
+                                    <div class="value">Rosyth Primary School</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="review-section">
+                            <h4>👨‍👩‍👧 Parent/Guardian Information</h4>
+                            <div class="detail-grid">
+                                <div class="detail-item">
+                                    <div class="label">Parent Name</div>
+                                    <div class="value">Mrs. Chen Li Hua</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="label">Email</div>
+                                    <div class="value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4f2c272a2161292e222623360f2a222e2623612c2022">[email&#160;protected]</a></div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="label">Mobile</div>
+                                    <div class="value">+65 9876 5432</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="label">Relationship</div>
+                                    <div class="value">Mother</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="review-section">
+                            <h4>📚 Class Selection</h4>
+                            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                                <div class="meta-tag status-approved">✓ English & Math (Saturday 1:00-2:30 PM)</div>
+                            </div>
+                        </div>
+
+                        <div class="review-section">
+                            <h4>💰 Fee Waiver Assessment</h4>
+                            
+                            <div class="fee-calculator">
+                                <h4>Household Financial Information</h4>
+                                <div class="calculator-row">
+                                    <span>Monthly Household Income:</span>
+                                    <span style="font-weight: 600;" id="modal-income">$2,400</span>
+                                </div>
+                                <div class="calculator-row">
+                                    <span>Household Size:</span>
+                                    <span style="font-weight: 600;" id="modal-pax">4 people</span>
+                                </div>
+                                <div class="calculator-row">
+                                    <span>Per Capita Income:</span>
+                                    <span style="font-weight: 700;" id="modal-per-capita">$600/person</span>
+                                </div>
+                            </div>
+
+                            <div style="background: #E8F5E9; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                                <strong style="color: var(--success);">💡 Recommendation:</strong>
+                                <p style="margin-top: 0.5rem; color: var(--neutral-800);">
+                                    Per capita income of <strong>$600/person</strong> qualifies for <strong>Full Fee Waiver</strong> 
+                                    (below $700 threshold). Family has indicated child does not currently have tuition.
+                                </p>
+                            </div>
+
+                            <div style="background: #FFF9C4; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                                <strong style="color: var(--warning);">📊 Singapore Poverty Benchmark:</strong>
+                                <p style="margin-top: 0.5rem; color: var(--neutral-800); font-size: 0.9rem;">
+                                    Singapore's relative poverty line (2023) is approximately $1,500/month per capita for basic needs.
+                                    This application falls below that threshold.
+                                </p>
+                            </div>
+
+                            <h4 style="margin-top: 1.5rem; margin-bottom: 1rem;">Select Fee Waiver Decision:</h4>
+                            <div class="waiver-options">
+                                <div class="waiver-option selected" onclick="selectWaiver(this, 'full')">
+                                    <div class="amount">$0</div>
+                                    <div class="description">Full Fee Waiver<br>(100% subsidy)</div>
+                                </div>
+                                <div class="waiver-option" onclick="selectWaiver(this, 'partial')">
+                                    <div class="amount">$60</div>
+                                    <div class="description">Partial Waiver<br>(50% subsidy)</div>
+                                </div>
+                                <div class="waiver-option" onclick="selectWaiver(this, 'none')">
+                                    <div class="amount">$120</div>
+                                    <div class="description">Full Fee<br>(No waiver)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="review-section">
+                            <div class="assignment-section">
+                                <h4>👥 Assign to Visitation Zone</h4>
+                                <p style="margin-bottom: 1rem; font-size: 0.9rem;">Select which visitation zone/leader will oversee this student:</p>
+                                
+                                <div class="zone-select">
+                                    <div class="zone-card" onclick="selectZone(this, 'zone1')">
+                                        <div class="zone-name">Zone 1</div>
+                                        <div class="leader-name">Pastor Sarah Lim</div>
+                                    </div>
+                                    <div class="zone-card" onclick="selectZone(this, 'zone2')">
+                                        <div class="zone-name">Zone 2</div>
+                                        <div class="leader-name">Deacon Mark Tan</div>
+                                    </div>
+                                    <div class="zone-card selected" onclick="selectZone(this, 'zone3')">
+                                        <div class="zone-name">Zone 3</div>
+                                        <div class="leader-name">Grace Wong</div>
+                                    </div>
+                                    <div class="zone-card" onclick="selectZone(this, 'zone4')">
+                                        <div class="zone-name">Zone 4</div>
+                                        <div class="leader-name">James Koh</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="review-section">
+                            <h4>📝 Additional Notes (Optional)</h4>
+                            <textarea style="width: 100%; padding: 1rem; border: 2px solid var(--neutral-200); border-radius: 8px; font-family: 'Nunito', sans-serif; min-height: 100px;" placeholder="Add any internal notes about this application..."></textarea>
+                        </div>
+
+                        <div class="decision-actions">
+                            <button class="btn btn-reject" onclick="handleReject()">
+                                ✗ Reject Application
+                            </button>
+                            <button class="btn btn-success" onclick="handleApprove()">
+                                ✓ Approve & Send Email
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- APPROVAL EMAIL VIEW -->
+            <div id="approval-view" class="view">
+                <div class="email-preview">
+                    <div class="email-header">
+                        <h2>🎉 Application Approved!</h2>
+                        <p>SMARTKids Tuition Programme</p>
+                    </div>
+                    <div class="email-body">
+                        <p><strong>Dear Mrs. Tan,</strong></p>
+                        
+                        <p>We're delighted to inform you that <strong>Sarah Tan</strong> has been accepted into the SMARTKids Tuition Programme for Term 1, 2026!</p>
+
+                        <div class="highlight-box">
+                            <h3>📋 Enrollment Details</h3>
+                            <div class="detail-row">
+                                <span class="label">Student Name:</span>
+                                <span class="value">Sarah Tan</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">Class:</span>
+                                <span class="value">English & Math (Primary 3)</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">Schedule:</span>
+                                <span class="value">Saturdays, 1:00 PM - 2:30 PM</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">First Class:</span>
+                                <span class="value">Saturday, 10 January 2026</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">Location:</span>
+                                <span class="value">Suntec Convention Centre, Level 6</span>
+                            </div>
+                        </div>
+
+                        <div class="highlight-box" style="background: linear-gradient(135deg, #FFF9C4 0%, #FFECB3 100%); border-left-color: var(--warning);">
+                            <h3>💰 Payment Information</h3>
+                            <div class="detail-row">
+                                <span class="label">Monthly Tuition Fee:</span>
+                                <span class="value">$120.00</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">Fee Waiver:</span>
+                                <span class="value">Not Applicable</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">Payment Due:</span>
+                                <span class="value">25 January 2026</span>
+                            </div>
+                        </div>
+
+                        <p><strong>Next Step:</strong> Please complete your payment to confirm Sarah's enrollment. You can pay easily through your parent portal:</p>
+
+                        <div style="text-align: center; margin: 2rem 0;">
+                            <button class="btn btn-success" onclick="switchView('payment')">
+                                Make Payment Now
+                            </button>
+                        </div>
+
+                        <p><strong>Your Visitation Leader:</strong><br>
+                        Grace Wong will be supporting your family throughout this journey.<br>
+                        📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5e392c3f3d3b70293130391e3d363d70312c39702d39">[email&#160;protected]</a> | 📱 +65 9123 4567</p>
+
+                        <p>If you have any questions, please don't hesitate to reach out to Grace or email us at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="43302e223137282a273003202b206d2c31246d3024">[email&#160;protected]</a>.</p>
+
+                        <p style="margin-top: 2rem;">We look forward to seeing Sarah in class!</p>
+
+                        <p><strong>Warm regards,</strong><br>
+                        The SMARTKids Team<br>
+                        City Harvest Children Services</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAYMENT VIEW -->
+            <div id="payment-view" class="view">
+                <div class="payment-container">
+                    <h2 style="font-family: 'Fredoka', sans-serif; font-size: 2rem; margin-bottom: 1rem; text-align: center;">Complete Your Payment</h2>
+                    
+                    <div class="payment-summary">
+                        <h3>Payment Summary</h3>
+                        <div class="detail-row" style="margin-bottom: 0.5rem;">
+                            <span class="label">Student:</span>
+                            <span class="value">Sarah Tan</span>
+                        </div>
+                        <div class="detail-row" style="margin-bottom: 0.5rem;">
+                            <span class="label">Term:</span>
+                            <span class="value">January - June 2026</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Due Date:</span>
+                            <span class="value">25 January 2026</span>
+                        </div>
+                        
+                        <div class="amount-display">$120.00</div>
+                        <p style="text-align: center; color: var(--neutral-700);">Monthly tuition fee</p>
+                    </div>
+
+                    <h3 style="font-family: 'Fredoka', sans-serif; margin-bottom: 1rem;">Choose Payment Method</h3>
+                    
+                    <div class="payment-methods">
+                        <div class="payment-method selected" onclick="selectPayment(this, 'paynow')">
+                            <div class="icon">💳</div>
+                            <div class="info">
+                                <h4>PayNow</h4>
+                                <p>Instant bank transfer via PayNow</p>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-method" onclick="selectPayment(this, 'card')">
+                            <div class="icon">💰</div>
+                            <div class="info">
+                                <h4>Credit/Debit Card</h4>
+                                <p>Visa, Mastercard, Amex accepted</p>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-method" onclick="selectPayment(this, 'bank')">
+                            <div class="icon">🏦</div>
+                            <div class="info">
+                                <h4>Bank Transfer</h4>
+                                <p>Direct bank transfer (manual verification)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="paynow-details" class="qr-display">
+                        <h3 style="font-family: 'Fredoka', sans-serif; margin-bottom: 1rem;">Scan to Pay with PayNow</h3>
+                        <div class="qr-placeholder">
+                            <span style="font-size: 8rem;">📱</span>
+                        </div>
+                        <p style="color: var(--neutral-700); margin-bottom: 0.5rem;"><strong>PayNow UEN:</strong> 202012345A</p>
+                        <p style="color: var(--neutral-700);"><strong>Reference:</strong> SARAH-TAN-JAN2026</p>
+                        <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--neutral-700);">
+                            After payment, you'll receive instant confirmation and your enrollment will be activated.
+                        </p>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="btn btn-success" onclick="alert('Payment processing... In production, this would integrate with Stripe/PayNow API and update the database.')">
+                            Confirm Payment
+                        </button>
+                    </div>
+
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: var(--neutral-50); border-radius: 12px;">
+                        <h4 style="margin-bottom: 0.5rem;">Need Help?</h4>
+                        <p style="font-size: 0.9rem; color: var(--neutral-700);">
+                            Contact your visitation leader Grace Wong at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e58297848680cb928a8b82a5868d86cb8a9782cb9682">[email&#160;protected]</a> or call +65 9123 4567
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PARENT DASHBOARD VIEW -->
+            <div id="parent-view" class="view">
+                <div class="status-card">
+                    <h2>Enrollment Status</h2>
+                    <p style="opacity: 0.9;">Application #TN2025-0342</p>
+                    <div class="status-badge">✓ Enrolled & Active</div>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Student Name</label>
+                        <div class="value">Sarah Tan</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Class</label>
+                        <div class="value">English & Math (P3)</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Next Class</label>
+                        <div class="value">Sat, 25 Jan 1:00 PM</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Visitation Leader</label>
+                        <div class="value">Grace Wong</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 2rem; background: var(--neutral-50); border-radius: 12px;">
+                    <h3 style="font-family: 'Fredoka', sans-serif; margin-bottom: 1rem;">Upcoming Classes</h3>
+                    <div style="padding: 1rem; background: white; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid var(--success);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong>Saturday, 25 January 2026</strong>
+                                <p style="color: var(--neutral-700); margin-top: 0.25rem;">English & Math | 1:00 PM - 2:30 PM</p>
+                            </div>
+                            <span style="color: var(--success); font-weight: 700;">Confirmed</span>
+                        </div>
+                    </div>
+                    <div style="padding: 1rem; background: white; border-radius: 8px; border-left: 4px solid var(--neutral-300);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong>Saturday, 1 February 2026</strong>
+                                <p style="color: var(--neutral-700); margin-top: 0.25rem;">English & Math | 1:00 PM - 2:30 PM</p>
+                            </div>
+                            <span style="color: var(--neutral-700);">Upcoming</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #E3F2FD 0%, #F3E5F5 100%); border-radius: 12px;">
+                    <h3 style="font-family: 'Fredoka', sans-serif; margin-bottom: 1rem;">Contact Your Visitation Leader</h3>
+                    <p style="margin-bottom: 1rem;"><strong>Grace Wong</strong></p>
+                    <p>📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7f180d1e1c1a51081011183f1c171c51100d18510c18">[email&#160;protected]</a></p>
+                    <p>📱 +65 9123 4567</p>
+                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="alert('Opening messaging interface...')">
+                        Send Message
+                    </button>
+                </div>
+            </div>
+
+            <!-- VISITATION LEADER DASHBOARD -->
+            <div id="leader-view" class="view">
+                <div class="dashboard-header">
+                    <h2>Zone 3 Dashboard</h2>
+                    <p style="color: var(--neutral-700);">Visitation Leader: Grace Wong</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number">12</div>
+                        <div class="label">Total Students</div>
+                    </div>
+                    <div class="stat-card" style="border-left-color: var(--warning);">
+                        <div class="number" style="color: var(--warning);">3</div>
+                        <div class="label">Pending Applications</div>
+                    </div>
+                    <div class="stat-card" style="border-left-color: var(--accent);">
+                        <div class="number" style="color: var(--accent);">4</div>
+                        <div class="label">Payment Required</div>
+                    </div>
+                    <div class="stat-card" style="border-left-color: var(--success);">
+                        <div class="number" style="color: var(--success);">5</div>
+                        <div class="label">Active & Enrolled</div>
+                    </div>
+                </div>
+
+                <h3 style="font-family: 'Fredoka', sans-serif; margin: 2rem 0 1rem;">My Students</h3>
+
+                <div class="student-list">
+                    <div class="student-card">
+                        <div class="student-info">
+                            <h3>Sarah Tan</h3>
+                            <p style="color: var(--neutral-700); margin: 0.5rem 0;">Primary 3 | English & Math</p>
+                            <p style="font-size: 0.9rem; color: var(--neutral-700);">📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5e2a3f3070383f333732271e3b333f3732703d3133">[email&#160;protected]</a> | 📱 +65 9234 5678</p>
+                            <div class="student-meta">
+                                <span class="meta-tag status-approved">Approved</span>
+                                <span class="meta-tag payment-paid">Payment Received</span>
+                                <span class="meta-tag fee-full">Full Fee: $120/mo</span>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 0.9rem;" onclick="alert('Opening student details...')">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="student-card">
+                        <div class="student-info">
+                            <h3>Marcus Lim</h3>
+                            <p style="color: var(--neutral-700); margin: 0.5rem 0;">Primary 5 | English & Math + Chinese</p>
+                            <p style="font-size: 0.9rem; color: var(--neutral-700);">📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="224e4b4f0c4f62474f434b4e0c414d4f">[email&#160;protected]</a> | 📱 +65 8765 4321</p>
+                            <div class="student-meta">
+                                <span class="meta-tag status-approved">Approved</span>
+                                <span class="meta-tag payment-paid">Payment Received</span>
+                                <span class="meta-tag fee-waiver">Fee Waiver Granted</span>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 0.9rem;" onclick="alert('Opening student details...')">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="student-card">
+                        <div class="student-info">
+                            <h3>Rachel Koh</h3>
+                            <p style="color: var(--neutral-700); margin: 0.5rem 0;">Primary 4 | Chinese</p>
+                            <p style="font-size: 0.9rem; color: var(--neutral-700);">📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3a51555214487a5f575b535614595557">[email&#160;protected]</a> | 📱 +65 9345 6789</p>
+                            <div class="student-meta">
+                                <span class="meta-tag status-approved">Approved</span>
+                                <span class="meta-tag payment-pending">Payment Pending</span>
+                                <span class="meta-tag fee-full">Partial Waiver: $60/mo</span>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 0.9rem;" onclick="alert('Sending payment reminder...')">
+                                Send Reminder
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        function switchView(view) {
+            // Update buttons
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update views
+            document.querySelectorAll('.view').forEach(v => {
+                v.classList.remove('active');
+            });
+            document.getElementById(view + '-view').classList.add('active');
+        }
+
+        function selectPayment(element, method) {
+            // Remove selected class from all payment methods
+            document.querySelectorAll('.payment-method').forEach(pm => {
+                pm.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked element
+            element.classList.add('selected');
+            
+            // Show/hide payment details based on method
+            const paynowDetails = document.getElementById('paynow-details');
+            if (method === 'paynow') {
+                paynowDetails.style.display = 'block';
+            } else {
+                paynowDetails.style.display = 'none';
+            }
+        }
+
+        // Admin Modal Functions
+        function openReviewModal(appId, studentName, grade, income, pax) {
+            const modal = document.getElementById('review-modal');
+            document.getElementById('modal-app-id').textContent = appId;
+            document.getElementById('modal-student-name').textContent = studentName;
+            document.getElementById('modal-grade').textContent = 'Primary ' + grade.replace('P', '');
+            document.getElementById('modal-income').textContent = '$' + income.toLocaleString();
+            document.getElementById('modal-pax').textContent = pax + ' people';
+            
+            const perCapita = Math.round(income / pax);
+            document.getElementById('modal-per-capita').textContent = '$' + perCapita + '/person';
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeReviewModal() {
+            const modal = document.getElementById('review-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function selectWaiver(element, type) {
+            document.querySelectorAll('.waiver-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        function selectZone(element, zoneId) {
+            document.querySelectorAll('.zone-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        function handleApprove() {
+            const appId = document.getElementById('modal-app-id').textContent;
+            const studentName = document.getElementById('modal-student-name').textContent;
+            
+            // Get selected waiver
+            const selectedWaiver = document.querySelector('.waiver-option.selected');
+            const waiverType = selectedWaiver ? selectedWaiver.querySelector('.description').textContent : 'Unknown';
+            
+            // Get selected zone
+            const selectedZone = document.querySelector('.zone-card.selected');
+            const zoneName = selectedZone ? selectedZone.querySelector('.zone-name').textContent : 'Unknown';
+            const leaderName = selectedZone ? selectedZone.querySelector('.leader-name').textContent : 'Unknown';
+            
+            alert(`✅ APPLICATION APPROVED!\n\nApp ID: ${appId}\nStudent: ${studentName}\nFee Status: ${waiverType}\nAssigned to: ${zoneName} (${leaderName})\n
