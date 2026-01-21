@@ -290,6 +290,52 @@
             min-height: 100px;
         }
 
+        .student-form-card {
+            background: var(--neutral-50);
+            border: 2px solid var(--neutral-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .student-form-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .level-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .level-option {
+            padding: 0.75rem;
+            border: 2px solid var(--neutral-200);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .level-option:hover {
+            border-color: var(--primary);
+            background: var(--neutral-50);
+        }
+
+        .level-option input[type="radio"] {
+            margin-right: 0.5rem;
+        }
+
+        .level-option.selected {
+            border-color: var(--primary);
+            background: #E3F2FD;
+            font-weight: 600;
+        }
+
         .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -1208,40 +1254,65 @@
                         </div>
                     </div>
 
-                    <div class="form-section">
-                        <h3>Student Information</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>Student's Full Name <span class="required">*</span></label>
-                                <input type="text" required placeholder="Enter student's full name">
-                            </div>
-                            <div class="form-group">
-                                <label>Date of Birth <span class="required">*</span></label>
-                                <input type="date" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Current School <span class="required">*</span></label>
-                                <input type="text" required placeholder="Enter school name">
-                            </div>
-                            <div class="form-group">
-                                <label>Current Grade Level <span class="required">*</span></label>
-                                <select required>
-                                    <option value="">Select...</option>
-                                    <option value="nursery">Nursery</option>
-                                    <option value="k1">Kindergarten 1</option>
-                                    <option value="k2">Kindergarten 2</option>
-                                    <option value="p1">Primary 1</option>
-                                    <option value="p2">Primary 2</option>
-                                    <option value="p3">Primary 3</option>
-                                    <option value="p4">Primary 4</option>
-                                    <option value="p5">Primary 5</option>
-                                    <option value="p6">Primary 6</option>
-                                </select>
+                    <div class="form-section" id="students-section">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                            <h3 style="margin: 0;">Student Information</h3>
+                            <button type="button" class="btn btn-primary" onclick="addStudentForm()" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                                ➕ Add Another Student
+                            </button>
+                        </div>
+                        
+                        <div class="student-form-container" id="student-forms">
+                            <div class="student-form-card" data-student-index="0">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                    <h4 style="color: var(--primary); margin: 0;">Student #1</h4>
+                                    <button type="button" class="remove-student-btn" onclick="removeStudentForm(0)" style="display: none; background: var(--danger); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                                        ✗ Remove
+                                    </button>
+                                </div>
+                                
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>Student's Full Name <span class="required">*</span></label>
+                                        <input type="text" required placeholder="Enter student's full name" class="student-name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Date of Birth <span class="required">*</span></label>
+                                        <input type="date" required class="student-dob">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Current School <span class="required">*</span></label>
+                                        <input type="text" required placeholder="Enter school name" class="student-school">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Current Grade Level <span class="required">*</span></label>
+                                        <select required class="student-grade" onchange="updateClassOptions(this)">
+                                            <option value="">Select...</option>
+                                            <option value="nursery">Nursery</option>
+                                            <option value="k1">Kindergarten 1</option>
+                                            <option value="k2">Kindergarten 2</option>
+                                            <option value="p1">Primary 1</option>
+                                            <option value="p2">Primary 2</option>
+                                            <option value="p3">Primary 3</option>
+                                            <option value="p4">Primary 4</option>
+                                            <option value="p5">Primary 5</option>
+                                            <option value="p6">Primary 6</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Class Selection (will be populated dynamically based on grade) -->
+                                <div class="class-selection-area" style="margin-top: 1.5rem;">
+                                    <label style="display: block; font-weight: 600; margin-bottom: 1rem;">Select Classes <span class="required">*</span></label>
+                                    <div class="classes-container">
+                                        <p style="color: var(--neutral-700); font-style: italic;">Please select a grade level first</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-section">
+                    <div class="form-section" style="display: none;" id="original-class-section">
                         <h3>Class Selection</h3>
                         <div class="form-group">
                             <label>Which class(es) would you like to register for? <span class="required">*</span></label>
@@ -1984,6 +2055,211 @@
         // Log test database on page load
         console.log('📊 Test Database Loaded:', testDatabase);
         console.log('💡 You can access the test data via: testDatabase.applications');
+        
+        // Student form management
+        let studentFormCount = 1;
+
+        function updateClassOptions(selectElement) {
+            const grade = selectElement.value;
+            const studentCard = selectElement.closest('.student-form-card');
+            const classesContainer = studentCard.querySelector('.classes-container');
+            
+            // Upper primary grades (P4, P5, P6) need level selection
+            const isUpperPrimary = ['p4', 'p5', 'p6'].includes(grade);
+            
+            if (!grade) {
+                classesContainer.innerHTML = '<p style="color: var(--neutral-700); font-style: italic;">Please select a grade level first</p>';
+                return;
+            }
+            
+            let html = '';
+            
+            // English and Math option (available for all except Chinese-only classes)
+            if (['nursery', 'k1', 'k2', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6'].includes(grade)) {
+                html += '<div style="margin-bottom: 1.5rem;">';
+                html += '<div class="checkbox-group" style="margin-bottom: 0.5rem;">';
+                html += '<input type="checkbox" id="english-math-' + studentCard.dataset.studentIndex + '" name="classes-' + studentCard.dataset.studentIndex + '" value="english-math" onchange="toggleLevelSelection(this)">';
+                html += '<label for="english-math-' + studentCard.dataset.studentIndex + '" style="font-weight: 600;">English and Math (Saturday 1:00-2:30 PM)</label>';
+                html += '</div>';
+                
+                if (isUpperPrimary) {
+                    html += '<div class="level-selection" id="english-math-level-' + studentCard.dataset.studentIndex + '" style="display: none; margin-left: 2rem; margin-top: 0.75rem;">';
+                    html += '<div class="level-option" onclick="selectLevel(this)">';
+                    html += '<input type="radio" name="english-math-level-' + studentCard.dataset.studentIndex + '" value="standard" required>';
+                    html += '<span>Standard</span>';
+                    html += '</div>';
+                    html += '<div class="level-option" onclick="selectLevel(this)">';
+                    html += '<input type="radio" name="english-math-level-' + studentCard.dataset.studentIndex + '" value="foundation" required>';
+                    html += '<span>Foundation</span>';
+                    html += '</div>';
+                    html += '</div>';
+                }
+                html += '</div>';
+            }
+            
+            // Chinese options (only for P4, P5, P6)
+            if (['p4', 'p5'].includes(grade)) {
+                html += '<div style="margin-bottom: 1.5rem;">';
+                html += '<div class="checkbox-group" style="margin-bottom: 0.5rem;">';
+                html += '<input type="checkbox" id="chinese-p45-' + studentCard.dataset.studentIndex + '" name="classes-' + studentCard.dataset.studentIndex + '" value="chinese-p45" onchange="toggleLevelSelection(this)">';
+                html += '<label for="chinese-p45-' + studentCard.dataset.studentIndex + '" style="font-weight: 600;">Standard Chinese for P4 & P5 (Wednesday 7:00-8:00 PM)</label>';
+                html += '</div>';
+                html += '<div class="level-selection" id="chinese-p45-level-' + studentCard.dataset.studentIndex + '" style="display: none; margin-left: 2rem; margin-top: 0.75rem;">';
+                html += '<div class="level-option" onclick="selectLevel(this)">';
+                html += '<input type="radio" name="chinese-p45-level-' + studentCard.dataset.studentIndex + '" value="standard" required>';
+                html += '<span>Standard</span>';
+                html += '</div>';
+                html += '<div class="level-option" onclick="selectLevel(this)">';
+                html += '<input type="radio" name="chinese-p45-level-' + studentCard.dataset.studentIndex + '" value="foundation" required>';
+                html += '<span>Foundation</span>';
+                html += '</div>';
+                html += '</div>';
+                html += '</div>';
+            }
+            
+            if (grade === 'p6') {
+                html += '<div style="margin-bottom: 1.5rem;">';
+                html += '<div class="checkbox-group" style="margin-bottom: 0.5rem;">';
+                html += '<input type="checkbox" id="chinese-p6-' + studentCard.dataset.studentIndex + '" name="classes-' + studentCard.dataset.studentIndex + '" value="chinese-p6" onchange="toggleLevelSelection(this)">';
+                html += '<label for="chinese-p6-' + studentCard.dataset.studentIndex + '" style="font-weight: 600;">Standard Chinese for P6 (Wednesday 7:15-8:15 PM)</label>';
+                html += '</div>';
+                html += '<div class="level-selection" id="chinese-p6-level-' + studentCard.dataset.studentIndex + '" style="display: none; margin-left: 2rem; margin-top: 0.75rem;">';
+                html += '<div class="level-option" onclick="selectLevel(this)">';
+                html += '<input type="radio" name="chinese-p6-level-' + studentCard.dataset.studentIndex + '" value="standard" required>';
+                html += '<span>Standard</span>';
+                html += '</div>';
+                html += '<div class="level-option" onclick="selectLevel(this)">';
+                html += '<input type="radio" name="chinese-p6-level-' + studentCard.dataset.studentIndex + '" value="foundation" required>';
+                html += '<span>Foundation</span>';
+                html += '</div>';
+                html += '</div>';
+                html += '</div>';
+            }
+            
+            if (html === '') {
+                html = '<p style="color: var(--neutral-700);">No classes available for this grade level.</p>';
+            }
+            
+            classesContainer.innerHTML = html;
+        }
+
+        function toggleLevelSelection(checkbox) {
+            const studentCard = checkbox.closest('.student-form-card');
+            const studentIndex = studentCard.dataset.studentIndex;
+            const classType = checkbox.value;
+            const levelDiv = document.getElementById(classType + '-level-' + studentIndex);
+            
+            if (levelDiv) {
+                levelDiv.style.display = checkbox.checked ? 'grid' : 'none';
+                // If unchecked, clear the radio selection
+                if (!checkbox.checked) {
+                    const radios = levelDiv.querySelectorAll('input[type="radio"]');
+                    radios.forEach(radio => {
+                        radio.checked = false;
+                        radio.closest('.level-option').classList.remove('selected');
+                    });
+                }
+            }
+        }
+
+        function selectLevel(element) {
+            const radio = element.querySelector('input[type="radio"]');
+            radio.checked = true;
+            
+            // Update visual selection
+            const allOptions = element.parentElement.querySelectorAll('.level-option');
+            allOptions.forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function addStudentForm() {
+            const container = document.getElementById('student-forms');
+            studentFormCount++;
+            
+            const newStudentCard = document.createElement('div');
+            newStudentCard.className = 'student-form-card';
+            newStudentCard.dataset.studentIndex = studentFormCount - 1;
+            
+            newStudentCard.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h4 style="color: var(--primary); margin: 0;">Student #${studentFormCount}</h4>
+                    <button type="button" class="remove-student-btn" onclick="removeStudentForm(${studentFormCount - 1})" style="background: var(--danger); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                        ✗ Remove
+                    </button>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Student's Full Name <span class="required">*</span></label>
+                        <input type="text" required placeholder="Enter student's full name" class="student-name">
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Birth <span class="required">*</span></label>
+                        <input type="date" required class="student-dob">
+                    </div>
+                    <div class="form-group">
+                        <label>Current School <span class="required">*</span></label>
+                        <input type="text" required placeholder="Enter school name" class="student-school">
+                    </div>
+                    <div class="form-group">
+                        <label>Current Grade Level <span class="required">*</span></label>
+                        <select required class="student-grade" onchange="updateClassOptions(this)">
+                            <option value="">Select...</option>
+                            <option value="nursery">Nursery</option>
+                            <option value="k1">Kindergarten 1</option>
+                            <option value="k2">Kindergarten 2</option>
+                            <option value="p1">Primary 1</option>
+                            <option value="p2">Primary 2</option>
+                            <option value="p3">Primary 3</option>
+                            <option value="p4">Primary 4</option>
+                            <option value="p5">Primary 5</option>
+                            <option value="p6">Primary 6</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="class-selection-area" style="margin-top: 1.5rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 1rem;">Select Classes <span class="required">*</span></label>
+                    <div class="classes-container">
+                        <p style="color: var(--neutral-700); font-style: italic;">Please select a grade level first</p>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(newStudentCard);
+            
+            // Show remove button on first student if there are now multiple
+            if (studentFormCount > 1) {
+                document.querySelectorAll('.remove-student-btn').forEach(btn => {
+                    btn.style.display = 'inline-block';
+                });
+            }
+            
+            // Scroll to new student form
+            newStudentCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function removeStudentForm(index) {
+            const studentCard = document.querySelector(`[data-student-index="${index}"]`);
+            if (studentCard) {
+                studentCard.remove();
+                studentFormCount--;
+                
+                // Renumber remaining students
+                const remainingCards = document.querySelectorAll('.student-form-card');
+                remainingCards.forEach((card, idx) => {
+                    card.querySelector('h4').textContent = `Student #${idx + 1}`;
+                    card.dataset.studentIndex = idx;
+                });
+                
+                // Hide remove buttons if only one student left
+                if (studentFormCount <= 1) {
+                    document.querySelectorAll('.remove-student-btn').forEach(btn => {
+                        btn.style.display = 'none';
+                    });
+                }
+            }
+        }
         
         // Role switching function
         function switchRole(role) {
