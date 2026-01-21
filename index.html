@@ -6,6 +6,19 @@
     <title>SmartKids Tuition Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- Google Translate -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,zh-CN,zh-TW,ms,ta',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <style>
         :root {
             --primary: #2196F3;
@@ -166,6 +179,33 @@
 
         .lang-btn:hover:not(.active) {
             background: rgba(255,255,255,0.2);
+        }
+
+        /* Google Translate Widget Styling */
+        #google_translate_element {
+            background: rgba(255,255,255,0.95);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .goog-te-banner-frame {
+            display: none !important;
+        }
+
+        body {
+            top: 0 !important;
+        }
+
+        .goog-te-gadget {
+            font-family: 'Nunito', sans-serif !important;
+            font-size: 0.9rem !important;
+        }
+
+        .goog-te-gadget-simple {
+            background: transparent !important;
+            border: none !important;
+            font-size: 0.9rem !important;
         }
 
         .view-btn {
@@ -1232,6 +1272,10 @@
 <body>
     <div class="container">
         <div class="header">
+            <div style="position: absolute; top: 1rem; right: 1rem; z-index: 100;">
+                <div id="google_translate_element"></div>
+            </div>
+            
             <div class="header-content">
                 <div class="logo-section">
                     <h1>SMARTKids Programme</h1>
@@ -1372,9 +1416,16 @@
                     <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.5rem; color: var(--primary); margin-bottom: 1rem;">
                         📱 Explore the Demo
                     </h3>
-                    <p style="font-size: 1.1rem; color: var(--neutral-800); max-width: 600px; margin: 0 auto;">
+                    <p style="font-size: 1.1rem; color: var(--neutral-800); max-width: 600px; margin: 0 auto; margin-bottom: 1.5rem;">
                         This is a fully interactive demo with test data. Use the tabs above to switch between <strong>👥 Parent View</strong> and <strong>🔒 Admin View</strong> to see how the system works for different users.
                     </p>
+                    
+                    <!-- Language Note -->
+                    <div style="background: rgba(76, 175, 80, 0.15); border-left: 4px solid var(--success); padding: 1rem; border-radius: 8px; max-width: 700px; margin: 0 auto; text-align: left;">
+                        <p style="margin: 0; font-size: 0.95rem; color: var(--neutral-800);">
+                            <strong>🌐 Multilingual Support:</strong> Use the <strong>Google Translate widget</strong> in the top-right corner to instantly translate the ENTIRE app into Chinese (中文), Malay, Tamil, or any other language! The custom Application Form translations demonstrate professional localization, while Google Translate covers everything else automatically. Best of both worlds! 😊
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -1393,34 +1444,34 @@
                         <li><strong>Standard Chinese</strong> for Primary 4 & 5<br>Wednesday 7:00 PM - 8:00 PM | Starting 7 January 2026</li>
                         <li><strong>Standard Chinese</strong> for Primary 6<br>Wednesday 7:15 PM - 8:15 PM | Starting 7 January 2026</li>
                     </ul>
-                    <p style="margin-top: 1rem;"><strong>Registration Fee:</strong> $50 (one-time, non-refundable for 2026)</p>
-                    <p><strong>Note:</strong> Priority given to children from low-income families who do not have tuition.</p>
+                    <p style="margin-top: 1rem;"><strong data-translate="registrationFee">Registration Fee:</strong> $50 (<span data-translate="oneTime">one-time, non-refundable for 2026</span>)</p>
+                    <p><strong>Note:</strong> <span data-translate="priorityNote">Priority given to children from low-income families who do not have tuition.</span></p>
                 </div>
 
                 <form id="application-form">
                     <div class="form-section">
-                        <h3>Parent/Guardian Information</h3>
+                        <h3 data-translate="parentGuardianInfo">Parent/Guardian Information</h3>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Full Name <span class="required">*</span></label>
-                                <input type="text" required placeholder="Enter parent/guardian name">
+                                <label data-translate="fullName">Full Name <span class="required">*</span></label>
+                                <input type="text" required data-translate="fullName" placeholder="Enter parent/guardian name">
                             </div>
                             <div class="form-group">
-                                <label>Email <span class="required">*</span></label>
-                                <input type="email" required placeholder="your.email@example.com">
+                                <label data-translate="email">Email <span class="required">*</span></label>
+                                <input type="email" required data-translate="email" placeholder="your.email@example.com">
                             </div>
                             <div class="form-group">
-                                <label>Mobile Number <span class="required">*</span></label>
-                                <input type="tel" required placeholder="+65 9123 4567">
+                                <label data-translate="mobileNumber">Mobile Number <span class="required">*</span></label>
+                                <input type="tel" required data-translate="mobileNumber" placeholder="+65 9123 4567">
                             </div>
                             <div class="form-group">
-                                <label>Relationship to Child <span class="required">*</span></label>
+                                <label data-translate="relationship">Relationship to Child <span class="required">*</span></label>
                                 <select required>
-                                    <option value="">Select...</option>
-                                    <option value="father">Father</option>
-                                    <option value="mother">Mother</option>
-                                    <option value="guardian">Legal Guardian</option>
-                                    <option value="other">Other</option>
+                                    <option value="" data-translate="selectRelationship">Select...</option>
+                                    <option value="father" data-translate="father">Father</option>
+                                    <option value="mother" data-translate="mother">Mother</option>
+                                    <option value="guardian" data-translate="guardian">Legal Guardian</option>
+                                    <option value="other" data-translate="other">Other</option>
                                 </select>
                             </div>
                         </div>
@@ -1428,8 +1479,8 @@
 
                     <div class="form-section" id="students-section">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                            <h3 style="margin: 0;">Student Information</h3>
-                            <button type="button" class="btn btn-primary" onclick="addStudentForm()" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                            <h3 style="margin: 0;" data-translate="studentInfo">Student Information</h3>
+                            <button type="button" class="btn btn-primary" onclick="addStudentForm()" style="padding: 0.5rem 1rem; font-size: 0.9rem;" data-translate="addStudent">
                                 ➕ Add Another Student
                             </button>
                         </div>
@@ -1445,22 +1496,22 @@
                                 
                                 <div class="form-grid">
                                     <div class="form-group">
-                                        <label>Student's Full Name <span class="required">*</span></label>
-                                        <input type="text" required placeholder="Enter student's full name" class="student-name">
+                                        <label data-translate="studentFullName">Student's Full Name <span class="required">*</span></label>
+                                        <input type="text" required data-translate="studentFullName" placeholder="Enter student's full name" class="student-name">
                                     </div>
                                     <div class="form-group">
-                                        <label>Date of Birth <span class="required">*</span></label>
+                                        <label data-translate="dateOfBirth">Date of Birth <span class="required">*</span></label>
                                         <input type="date" required class="student-dob">
                                     </div>
                                     <div class="form-group">
-                                        <label>Current School <span class="required">*</span></label>
-                                        <input type="text" required placeholder="Enter school name" class="student-school">
+                                        <label data-translate="currentSchool">Current School <span class="required">*</span></label>
+                                        <input type="text" required data-translate="currentSchool" placeholder="Enter school name" class="student-school">
                                     </div>
                                     <div class="form-group">
-                                        <label>Current Grade Level <span class="required">*</span></label>
+                                        <label data-translate="currentGrade">Current Grade Level <span class="required">*</span></label>
                                         <select required class="student-grade" onchange="updateClassOptions(this)">
-                                            <option value="">Select...</option>
-                                            <option value="nursery">Nursery</option>
+                                            <option value="" data-translate="selectRelationship">Select...</option>
+                                            <option value="nursery" data-translate="nursery">Nursery</option>
                                             <option value="k1">Kindergarten 1</option>
                                             <option value="k2">Kindergarten 2</option>
                                             <option value="p1">Primary 1</option>
@@ -1504,20 +1555,20 @@
                     </div>
 
                     <div class="form-section">
-                        <h3>Household Information (for Fee Waiver Assessment)</h3>
+                        <h3 data-translate="householdInfo">Household Information (for Fee Waiver Assessment)</h3>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Monthly Household Income</label>
-                                <input type="number" placeholder="Enter amount in SGD">
+                                <label data-translate="monthlyIncome">Monthly Household Income</label>
+                                <input type="number" data-translate="monthlyIncome" placeholder="Enter amount in SGD">
                             </div>
                             <div class="form-group">
-                                <label>Number of People in Household</label>
-                                <input type="number" placeholder="Enter number">
+                                <label data-translate="householdSize">Number of People in Household</label>
+                                <input type="number" data-translate="householdSize" placeholder="Enter number">
                             </div>
                             <div class="form-group">
                                 <label>Does your child currently have tuition?</label>
                                 <select>
-                                    <option value="">Select...</option>
+                                    <option value="" data-translate="selectRelationship">Select...</option>
                                     <option value="no">No</option>
                                     <option value="yes">Yes</option>
                                 </select>
@@ -1528,8 +1579,8 @@
                     <div class="form-section">
                         <h3>Additional Information</h3>
                         <div class="form-group">
-                            <label>Any special learning needs or requirements we should know about?</label>
-                            <textarea placeholder="Please share any relevant information..."></textarea>
+                            <label data-translate="specialNeeds">Any special learning needs or requirements we should know about?</label>
+                            <textarea data-translate="specialNeeds" placeholder="Please share any relevant information..."></textarea>
                         </div>
                         <div class="form-group">
                             <label>How did you hear about this programme?</label>
@@ -1545,10 +1596,10 @@
                     </div>
 
                     <div class="form-footer">
-                        <button type="submit" class="btn btn-primary" onclick="handleFormSubmission(event)">
+                        <button type="submit" class="btn btn-primary" onclick="handleFormSubmission(event)" data-translate="submitApplication">
                             Submit Application
                         </button>
-                        <p style="margin-top: 1rem; color: var(--neutral-700); font-size: 0.9rem;">
+                        <p style="margin-top: 1rem; color: var(--neutral-700); font-size: 0.9rem;" data-translate="submissionNote">
                             After submission, you'll receive a confirmation email and updates on your application status within 7 working days.
                         </p>
                     </div>
