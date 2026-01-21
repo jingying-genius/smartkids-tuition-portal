@@ -1232,19 +1232,11 @@
                     <p>City Harvest Children Services</p>
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-end;">
-                    <div style="display: flex; gap: 1rem; align-items: center;">
-                        <!-- Language Switcher -->
-                        <div class="language-switcher">
-                            <button class="lang-btn active" onclick="switchLanguage('en')">🇬🇧 English</button>
-                            <button class="lang-btn" onclick="switchLanguage('zh')">🇨🇳 中文</button>
-                        </div>
-                        
-                        <!-- Role Selector -->
-                        <div class="role-selector">
-                            <button class="role-tab active" onclick="switchRole('welcome')">🎉 Welcome</button>
-                            <button class="role-tab" onclick="switchRole('parent')">👥 Parent View</button>
-                            <button class="role-tab" onclick="switchRole('admin')">🔒 Admin View</button>
-                        </div>
+                    <!-- Role Selector -->
+                    <div class="role-selector">
+                        <button class="role-tab active" onclick="switchRole('welcome')">🎉 Welcome</button>
+                        <button class="role-tab" onclick="switchRole('parent')">👥 Parent View</button>
+                        <button class="role-tab" onclick="switchRole('admin')">🔒 Admin View</button>
                     </div>
                     <div class="view-switcher">
                         <!-- Welcome view (no sub-tabs) -->
@@ -1257,6 +1249,12 @@
                         <!-- Admin views -->
                         <button class="view-btn admin-view" onclick="switchView('admin')" style="display: none;">Admin Review</button>
                         <button class="view-btn admin-view" onclick="switchView('leader')" style="display: none;">Leader Dashboard</button>
+                    </div>
+                    
+                    <!-- Language Switcher (only visible in Parent View, below sub-tabs) -->
+                    <div class="language-switcher" id="language-switcher" style="display: none;">
+                        <button class="lang-btn active" onclick="switchLanguage('en')">🇬🇧 English</button>
+                        <button class="lang-btn" onclick="switchLanguage('zh')">🇨🇳 中文</button>
                     </div>
                 </div>
             </div>
@@ -2842,22 +2840,29 @@
             // Show/hide appropriate view buttons and views
             const parentBtns = document.querySelectorAll('.parent-view');
             const adminBtns = document.querySelectorAll('.admin-view');
+            const languageSwitcher = document.getElementById('language-switcher');
             
             if (role === 'welcome') {
                 // Hide all view buttons for welcome
                 parentBtns.forEach(btn => btn.style.display = 'none');
                 adminBtns.forEach(btn => btn.style.display = 'none');
+                // Hide language switcher
+                languageSwitcher.style.display = 'none';
                 // Show welcome view
                 document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
                 document.getElementById('welcome-view').classList.add('active');
             } else if (role === 'parent') {
                 parentBtns.forEach(btn => btn.style.display = 'inline-block');
                 adminBtns.forEach(btn => btn.style.display = 'none');
+                // Show language switcher for parent view
+                languageSwitcher.style.display = 'flex';
                 // Switch to first parent view
                 switchView('form');
             } else if (role === 'admin') {
                 parentBtns.forEach(btn => btn.style.display = 'none');
                 adminBtns.forEach(btn => btn.style.display = 'inline-block');
+                // Hide language switcher for admin view
+                languageSwitcher.style.display = 'none';
                 // Switch to first admin view
                 switchView('admin');
             }
