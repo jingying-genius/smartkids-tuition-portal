@@ -1,6 +1,6 @@
 # SmartKids Tuition Portal
 
-A modern, transparent tuition application and management system for Grace Community Church.
+A modern, transparent tuition application and management system for Hkz Smartkids tuition applications.
 
 ## Features
 
