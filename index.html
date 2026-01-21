@@ -306,33 +306,45 @@
 
         .level-selection {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 0.75rem;
             margin-top: 0.5rem;
         }
 
         .level-option {
-            padding: 0.75rem;
+            padding: 1rem;
             border: 2px solid var(--neutral-200);
             border-radius: 8px;
             cursor: pointer;
             text-align: center;
             transition: all 0.3s ease;
             background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .level-option:hover {
             border-color: var(--primary);
             background: var(--neutral-50);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .level-option input[type="radio"] {
-            margin-right: 0.5rem;
+            margin: 0;
+            cursor: pointer;
         }
 
         .level-option.selected {
             border-color: var(--primary);
             background: #E3F2FD;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2);
+        }
+
+        .level-option span {
             font-weight: 600;
         }
 
@@ -1188,15 +1200,18 @@
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-end;">
                     <div class="role-selector">
-                        <button class="role-tab active" onclick="switchRole('parent')">👥 Parent View</button>
+                        <button class="role-tab active" onclick="switchRole('welcome')">🎉 Welcome</button>
+                        <button class="role-tab" onclick="switchRole('parent')">👥 Parent View</button>
                         <button class="role-tab" onclick="switchRole('admin')">🔒 Admin View</button>
                     </div>
                     <div class="view-switcher">
+                        <!-- Welcome view (no sub-tabs) -->
+                        
                         <!-- Parent views -->
-                        <button class="view-btn parent-view active" onclick="switchView('form')">Application Form</button>
-                        <button class="view-btn parent-view" onclick="switchView('approval')">Approval Email</button>
-                        <button class="view-btn parent-view" onclick="switchView('payment')">Payment</button>
-                        <button class="view-btn parent-view" onclick="switchView('parent')">My Dashboard</button>
+                        <button class="view-btn parent-view" onclick="switchView('form')" style="display: none;">Application Form</button>
+                        <button class="view-btn parent-view" onclick="switchView('approval')" style="display: none;">Approval Email</button>
+                        <button class="view-btn parent-view" onclick="switchView('payment')" style="display: none;">Payment</button>
+                        <button class="view-btn parent-view" onclick="switchView('parent')" style="display: none;">My Dashboard</button>
                         <!-- Admin views -->
                         <button class="view-btn admin-view" onclick="switchView('admin')" style="display: none;">Admin Review</button>
                         <button class="view-btn admin-view" onclick="switchView('leader')" style="display: none;">Leader Dashboard</button>
@@ -1206,6 +1221,169 @@
         </div>
 
         <div class="main-content">
+            <!-- WELCOME / INTRO VIEW -->
+            <div id="welcome-view" class="view active">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <div style="font-size: 5rem; margin-bottom: 1rem;">🎉</div>
+                    <h1 style="font-family: 'Fredoka', sans-serif; font-size: 3rem; color: var(--primary); margin-bottom: 1rem;">Welcome to SMARTKids Portal!</h1>
+                    <p style="font-size: 1.2rem; color: var(--neutral-700); max-width: 600px; margin: 0 auto;">
+                        A modern, transparent solution for church tuition applications that actually makes sense.
+                    </p>
+                </div>
+
+                <!-- The Problem -->
+                <div style="background: linear-gradient(135deg, #FFEBEE 0%, #FCE4EC 100%); padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; border-left: 6px solid var(--danger);">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="font-size: 3rem;">😤</div>
+                        <h2 style="font-family: 'Fredoka', sans-serif; font-size: 2rem; color: var(--danger); margin: 0;">The Problem We're Solving</h2>
+                    </div>
+                    
+                    <h3 style="color: var(--danger); margin-bottom: 1rem; font-size: 1.3rem;">The Old System Was a MESS:</h3>
+                    
+                    <div style="display: grid; gap: 1rem;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--danger);">
+                            <div style="font-weight: 700; color: var(--danger); margin-bottom: 0.5rem;">🤦‍♀️ Step 1: The QR Maze</div>
+                            <p style="margin: 0; color: var(--neutral-800);">Parents scan a QR code → Get directed to a Google Form → Fill everything out → Submit into the void with ZERO visibility on what happens next.</p>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--danger);">
+                            <div style="font-weight: 700; color: var(--danger); margin-bottom: 0.5rem;">🙈 Step 2: The Black Box</div>
+                            <p style="margin: 0; color: var(--neutral-800);">Church staff manually reviews Google Forms. BUT... visitation leaders (the people actually following up with families) have NO IDEA which kids are accepted, which have fee waivers, or what's even happening!</p>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--danger);">
+                            <div style="font-weight: 700; color: var(--danger); margin-bottom: 0.5rem;">🤯 Step 3: The Payment Nightmare</div>
+                            <p style="margin: 0; color: var(--neutral-800);">When approved, parents get an email with a payment link... which leads to ANOTHER Google Form... which has a QR code INSIDE the form... so parents have to: Scan QR → Open form → Scroll to find QR → Scan AGAIN to pay. SERIOUSLY?!</p>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--danger);">
+                            <div style="font-weight: 700; color: var(--danger); margin-bottom: 0.5rem;">😵 Step 4: The Arbitrary Fee System</div>
+                            <p style="margin: 0; color: var(--neutral-800);">Fee waivers based on random "per household income / pax" calculations instead of Singapore's actual poverty criteria. No transparency, no consistency.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(244, 67, 54, 0.1); border-radius: 8px;">
+                        <p style="margin: 0; font-weight: 700; font-size: 1.1rem; color: var(--danger);">
+                            Result: Frustrated parents, confused leaders, manual chaos, and nobody knows what's happening! 🔥
+                        </p>
+                    </div>
+                </div>
+
+                <!-- The Solution -->
+                <div style="background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%); padding: 2.5rem; border-radius: 16px; margin-bottom: 2rem; border-left: 6px solid var(--success);">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="font-size: 3rem;">✨</div>
+                        <h2 style="font-family: 'Fredoka', sans-serif; font-size: 2rem; color: var(--success); margin: 0;">Our Beautiful Solution</h2>
+                    </div>
+                    
+                    <h3 style="color: var(--success); margin-bottom: 1rem; font-size: 1.3rem;">A System That Actually Works:</h3>
+                    
+                    <div style="display: grid; gap: 1rem;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--success);">
+                            <div style="font-weight: 700; color: var(--success); margin-bottom: 0.5rem;">👥 For Parents: Complete Transparency</div>
+                            <ul style="margin: 0.5rem 0 0 1.5rem; color: var(--neutral-800);">
+                                <li>Submit application ONCE (with multiple siblings support!)</li>
+                                <li>See real-time status updates</li>
+                                <li>Get clear approval emails with all details</li>
+                                <li>Pay with ONE click - scan QR, upload screenshot, done!</li>
+                                <li>Track everything in personal dashboard</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--success);">
+                            <div style="font-weight: 700; color: var(--success); margin-bottom: 0.5rem;">⚙️ For Church Staff: Powerful Admin Tools</div>
+                            <ul style="margin: 0.5rem 0 0 1.5rem; color: var(--neutral-800);">
+                                <li>Review all applications in one dashboard</li>
+                                <li>See household income breakdowns automatically</li>
+                                <li>Calculate fee waivers with clear criteria</li>
+                                <li>Approve/reject with one click</li>
+                                <li>Auto-assign to visitation zones</li>
+                                <li>Track payment status</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--success);">
+                            <div style="font-weight: 700; color: var(--success); margin-bottom: 0.5rem;">👨‍👩‍👧 For Visitation Leaders: Full Visibility</div>
+                            <ul style="margin: 0.5rem 0 0 1.5rem; color: var(--neutral-800);">
+                                <li>See ALL students in their zone at a glance</li>
+                                <li>Know who's approved, who needs payment, who's enrolled</li>
+                                <li>See fee status (full pay / waiver / partial)</li>
+                                <li>Contact parents directly from dashboard</li>
+                                <li>Send payment reminders with one click</li>
+                                <li>Actually know what's happening! 🎉</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Features -->
+                <div style="margin-bottom: 2rem;">
+                    <h2 style="font-family: 'Fredoka', sans-serif; font-size: 2rem; color: var(--primary); text-align: center; margin-bottom: 2rem;">🚀 Key Features</h2>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-top: 4px solid var(--primary);">
+                            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">👨‍👩‍👧‍👦</div>
+                            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Multiple Siblings</h4>
+                            <p style="font-size: 0.9rem; margin: 0; color: var(--neutral-700);">Register all your children in one application. Add unlimited siblings with the + button!</p>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-top: 4px solid var(--secondary);">
+                            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📚</div>
+                            <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">Subject Levels (P4-P6)</h4>
+                            <p style="font-size: 0.9rem; margin: 0; color: var(--neutral-700);">Select Standard or Foundation for each subject individually - matches Singapore's education system!</p>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-top: 4px solid var(--accent);">
+                            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📤</div>
+                            <h4 style="color: var(--accent); margin-bottom: 0.5rem;">Payment Upload</h4>
+                            <p style="font-size: 0.9rem; margin: 0; color: var(--neutral-700);">Scan PayNow QR and upload screenshot directly. No more WhatsApp/email screenshots!</p>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-top: 4px solid var(--success);">
+                            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔢</div>
+                            <h4 style="color: var(--success); margin-bottom: 0.5rem;">Visitation Numbers</h4>
+                            <p style="font-size: 0.9rem; margin: 0; color: var(--neutral-700);">Every leader has a clear ID (e.g., CCH555) for easy identification and tracking.</p>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-top: 4px solid var(--warning);">
+                            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">👁️</div>
+                            <h4 style="color: var(--warning); margin-bottom: 0.5rem;">Full Transparency</h4>
+                            <p style="font-size: 0.9rem; margin: 0; color: var(--neutral-700);">Everyone sees what they need: parents track status, leaders see their zone, staff manage everything.</p>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-top: 4px solid var(--danger);">
+                            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⚡</div>
+                            <h4 style="color: var(--danger); margin-bottom: 0.5rem;">One Flow, No Chaos</h4>
+                            <p style="font-size: 0.9rem; margin: 0; color: var(--neutral-700);">Apply → Approve → Pay → Enroll. Simple, clear, no QR maze, no confusion!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Call to Action -->
+                <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); padding: 3rem; border-radius: 16px; text-align: center; color: white; position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                    <div style="position: absolute; bottom: -80px; left: -80px; width: 250px; height: 250px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                    
+                    <div style="position: relative; z-index: 1;">
+                        <h2 style="font-family: 'Fredoka', sans-serif; font-size: 2.5rem; margin-bottom: 1rem;">Ready to Experience the Difference?</h2>
+                        <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.95;">Click the tabs above to explore:</p>
+                        
+                        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                            <button onclick="switchRole('parent')" style="padding: 1rem 2rem; background: white; color: var(--primary); border: none; border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+                                👥 Try Parent View
+                            </button>
+                            <button onclick="switchRole('admin')" style="padding: 1rem 2rem; background: white; color: var(--primary); border: none; border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+                                🔒 Try Admin View
+                            </button>
+                        </div>
+                        
+                        <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.9;">
+                            This is a fully interactive demo with test data. Click around, explore features, and see how smooth it can be! 🎊
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <!-- APPLICATION FORM VIEW -->
             <div id="form-view" class="view active">
                 <div class="form-banner">
@@ -1752,7 +1930,7 @@
                         </div>
 
                         <p><strong>Your Visitation Leader:</strong><br>
-                        Grace Wong will be supporting your family throughout this journey.<br>
+                        Grace Wong (Visitation Number: <strong>CCH555</strong>) will be supporting your family throughout this journey.<br>
                         📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="177065767472396078797057747f7439786570396470">[email&#160;protected]</a> | 📱 +65 9123 4567</p>
 
                         <p>If you have any questions, please don't hesitate to reach out to Grace or email us at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="51223c3023253a383522113239327f3e23367f2236">[email&#160;protected]</a>.</p>
@@ -1802,8 +1980,38 @@
                         </p>
                         <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255, 193, 7, 0.1); border-left: 4px solid var(--warning); border-radius: 4px;">
                             <p style="font-size: 0.9rem; color: var(--neutral-800); margin: 0;">
-                                <strong>📌 Important:</strong> Please keep a screenshot of your payment confirmation. Our team will verify your payment and send you the enrollment confirmation email with class details.
+                                <strong>📌 Important:</strong> Please upload a screenshot of your payment confirmation below. Our team will verify your payment and send you the enrollment confirmation email with class details.
                             </p>
+                        </div>
+                        
+                        <!-- Payment Screenshot Upload -->
+                        <div style="margin-top: 2rem; padding: 1.5rem; background: white; border: 2px dashed var(--primary); border-radius: 12px;">
+                            <h4 style="font-family: 'Fredoka', sans-serif; color: var(--primary); margin-bottom: 1rem;">📤 Upload Payment Screenshot</h4>
+                            <p style="font-size: 0.9rem; color: var(--neutral-700); margin-bottom: 1rem;">After making payment, please upload a screenshot of your payment confirmation:</p>
+                            
+                            <div style="position: relative;">
+                                <input type="file" id="payment-screenshot" accept="image/*" style="display: none;" onchange="handleFileUpload(this)">
+                                <label for="payment-screenshot" style="display: block; padding: 2rem; background: var(--neutral-50); border: 2px dashed var(--neutral-300); border-radius: 8px; text-align: center; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary)'; this.style.background='#E3F2FD'" onmouseout="this.style.borderColor='var(--neutral-300)'; this.style.background='var(--neutral-50)'">
+                                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">📷</div>
+                                    <div style="font-weight: 600; color: var(--primary); margin-bottom: 0.5rem;">Click to Upload Screenshot</div>
+                                    <div style="font-size: 0.85rem; color: var(--neutral-700);">PNG, JPG, or JPEG (Max 5MB)</div>
+                                </label>
+                            </div>
+                            
+                            <div id="upload-preview" style="margin-top: 1rem; display: none;">
+                                <div style="padding: 1rem; background: #E8F5E9; border-radius: 8px; display: flex; align-items: center; gap: 1rem;">
+                                    <div style="font-size: 2rem;">✅</div>
+                                    <div style="flex: 1;">
+                                        <div style="font-weight: 600; color: var(--success);">File Uploaded Successfully!</div>
+                                        <div id="file-name" style="font-size: 0.85rem; color: var(--neutral-700); margin-top: 0.25rem;"></div>
+                                    </div>
+                                    <button onclick="removeFile()" style="background: var(--danger); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600;">Remove</button>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-success" style="width: 100%; margin-top: 1.5rem;" onclick="submitPayment()">
+                                Submit Payment Confirmation
+                            </button>
                         </div>
                     </div>
                     <div style="margin-top: 2rem; padding: 1.5rem; background: var(--neutral-50); border-radius: 12px;">
@@ -1866,7 +2074,8 @@
 
                 <div style="margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, #E3F2FD 0%, #F3E5F5 100%); border-radius: 12px;">
                     <h3 style="font-family: 'Fredoka', sans-serif; margin-bottom: 1rem;">Contact Your Visitation Leader</h3>
-                    <p style="margin-bottom: 1rem;"><strong>Grace Wong</strong></p>
+                    <p style="margin-bottom: 0.5rem;"><strong>Grace Wong</strong></p>
+                    <p style="color: var(--neutral-700); margin-bottom: 1rem;">Visitation Number: <strong style="color: var(--primary);">CCH555</strong></p>
                     <p>📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="167164777573386179787156757e7538796471386571">[email&#160;protected]</a></p>
                     <p>📱 +65 9123 4567</p>
                     <button class="btn btn-primary" style="margin-top: 1rem;" onclick="alert('Opening messaging interface...')">
@@ -1879,7 +2088,10 @@
             <div id="leader-view" class="view">
                 <div class="dashboard-header">
                     <h2>Zone 3 Dashboard</h2>
-                    <p style="color: var(--neutral-700);">Visitation Leader: Grace Wong</p>
+                    <p style="color: var(--neutral-700); font-size: 1rem;">
+                        <strong>Visitation Leader:</strong> Grace Wong | 
+                        <strong>Visitation Number:</strong> <span style="color: var(--primary); font-weight: 700;">CCH555</span>
+                    </p>
                 </div>
 
                 <div class="stats-grid">
@@ -2045,10 +2257,10 @@
                 }
             ],
             zones: [
-                { id: 'zone1', name: 'Zone 1', leader: 'Pastor David Lee' },
-                { id: 'zone2', name: 'Zone 2', leader: 'Deacon Mark Tan' },
-                { id: 'zone3', name: 'Zone 3', leader: 'Grace Wong' },
-                { id: 'zone4', name: 'Zone 4', leader: 'James Koh' }
+                { id: 'zone1', name: 'Zone 1', leader: 'Pastor David Lee', visitationNumber: 'CCH111' },
+                { id: 'zone2', name: 'Zone 2', leader: 'Deacon Mark Tan', visitationNumber: 'CCH222' },
+                { id: 'zone3', name: 'Zone 3', leader: 'Grace Wong', visitationNumber: 'CCH555' },
+                { id: 'zone4', name: 'Zone 4', leader: 'James Koh', visitationNumber: 'CCH888' }
             ]
         };
 
@@ -2064,7 +2276,7 @@
             const studentCard = selectElement.closest('.student-form-card');
             const classesContainer = studentCard.querySelector('.classes-container');
             
-            // Upper primary grades (P4, P5, P6) need level selection
+            // Upper primary grades (P4, P5, P6) need individual subject level selection
             const isUpperPrimary = ['p4', 'p5', 'p6'].includes(grade);
             
             if (!grade) {
@@ -2074,64 +2286,82 @@
             
             let html = '';
             
-            // English and Math option (available for all except Chinese-only classes)
-            if (['nursery', 'k1', 'k2', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6'].includes(grade)) {
-                html += '<div style="margin-bottom: 1.5rem;">';
-                html += '<div class="checkbox-group" style="margin-bottom: 0.5rem;">';
-                html += '<input type="checkbox" id="english-math-' + studentCard.dataset.studentIndex + '" name="classes-' + studentCard.dataset.studentIndex + '" value="english-math" onchange="toggleLevelSelection(this)">';
-                html += '<label for="english-math-' + studentCard.dataset.studentIndex + '" style="font-weight: 600;">English and Math (Saturday 1:00-2:30 PM)</label>';
+            // FOR LOWER PRIMARY (N - P3): Show combined "English & Math"
+            if (['nursery', 'k1', 'k2', 'p1', 'p2', 'p3'].includes(grade)) {
+                html += '<div style="margin-bottom: 1rem;">';
+                html += '<div class="checkbox-group">';
+                html += '<input type="checkbox" id="english-math-' + studentCard.dataset.studentIndex + '" name="classes-' + studentCard.dataset.studentIndex + '" value="english-math">';
+                html += '<label for="english-math-' + studentCard.dataset.studentIndex + '">English and Math (Saturday 1:00-2:30 PM)</label>';
+                html += '</div>';
+                html += '</div>';
+            }
+            
+            // FOR UPPER PRIMARY (P4-P6): Show individual subject level selection
+            if (isUpperPrimary) {
+                html += '<div style="background: #FFF9C4; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid var(--warning);">';
+                html += '<p style="margin: 0; font-weight: 600; color: var(--neutral-900);">📚 For Primary 4-6: Please select level for each subject</p>';
                 html += '</div>';
                 
-                if (isUpperPrimary) {
-                    html += '<div class="level-selection" id="english-math-level-' + studentCard.dataset.studentIndex + '" style="display: none; margin-left: 2rem; margin-top: 0.75rem;">';
-                    html += '<div class="level-option" onclick="selectLevel(this)">';
-                    html += '<input type="radio" name="english-math-level-' + studentCard.dataset.studentIndex + '" value="standard" required>';
-                    html += '<span>Standard</span>';
-                    html += '</div>';
-                    html += '<div class="level-option" onclick="selectLevel(this)">';
-                    html += '<input type="radio" name="english-math-level-' + studentCard.dataset.studentIndex + '" value="foundation" required>';
-                    html += '<span>Foundation</span>';
-                    html += '</div>';
-                    html += '</div>';
+                // English Level Selection
+                html += '<div style="margin-bottom: 1.5rem; padding: 1rem; background: white; border: 2px solid var(--neutral-200); border-radius: 12px;">';
+                html += '<h4 style="margin-bottom: 1rem; color: var(--primary);">English (Saturday 1:00-2:30 PM)</h4>';
+                html += '<div class="level-selection">';
+                html += '<label class="level-option" onclick="selectSubjectLevel(this)">';
+                html += '<input type="radio" name="english-level-' + studentCard.dataset.studentIndex + '" value="standard">';
+                html += '<span>📗 English Standard</span>';
+                html += '</label>';
+                html += '<label class="level-option" onclick="selectSubjectLevel(this)">';
+                html += '<input type="radio" name="english-level-' + studentCard.dataset.studentIndex + '" value="foundation">';
+                html += '<span>📘 English Foundation</span>';
+                html += '</label>';
+                html += '<label class="level-option" onclick="selectSubjectLevel(this)">';
+                html += '<input type="radio" name="english-level-' + studentCard.dataset.studentIndex + '" value="none">';
+                html += '<span>❌ Not taking English</span>';
+                html += '</label>';
+                html += '</div>';
+                html += '</div>';
+                
+                // Math Level Selection
+                html += '<div style="margin-bottom: 1.5rem; padding: 1rem; background: white; border: 2px solid var(--neutral-200); border-radius: 12px;">';
+                html += '<h4 style="margin-bottom: 1rem; color: var(--primary);">Math (Saturday 1:00-2:30 PM)</h4>';
+                html += '<div class="level-selection">';
+                html += '<label class="level-option" onclick="selectSubjectLevel(this)">';
+                html += '<input type="radio" name="math-level-' + studentCard.dataset.studentIndex + '" value="standard">';
+                html += '<span>🔢 Math Standard</span>';
+                html += '</label>';
+                html += '<label class="level-option" onclick="selectSubjectLevel(this)">';
+                html += '<input type="radio" name="math-level-' + studentCard.dataset.studentIndex + '" value="foundation">';
+                html += '<span>➕ Math Foundation</span>';
+                html += '</label>';
+                html += '<label class="level-option" onclick="selectSubjectLevel(this)">';
+                html += '<input type="radio" name="math-level-' + studentCard.dataset.studentIndex + '" value="none">';
+                html += '<span>❌ Not taking Math</span>';
+                html += '</label>';
+                html += '</div>';
+                html += '</div>';
+                
+                // Chinese Level Selection
+                html += '<div style="margin-bottom: 1rem; padding: 1rem; background: white; border: 2px solid var(--neutral-200); border-radius: 12px;">';
+                
+                if (grade === 'p6') {
+                    html += '<h4 style="margin-bottom: 1rem; color: var(--primary);">Chinese for P6 (Wednesday 7:15-8:15 PM)</h4>';
+                } else {
+                    html += '<h4 style="margin-bottom: 1rem; color: var(--primary);">Chinese for P4 & P5 (Wednesday 7:00-8:00 PM)</h4>';
                 }
-                html += '</div>';
-            }
-            
-            // Chinese options (only for P4, P5, P6)
-            if (['p4', 'p5'].includes(grade)) {
-                html += '<div style="margin-bottom: 1.5rem;">';
-                html += '<div class="checkbox-group" style="margin-bottom: 0.5rem;">';
-                html += '<input type="checkbox" id="chinese-p45-' + studentCard.dataset.studentIndex + '" name="classes-' + studentCard.dataset.studentIndex + '" value="chinese-p45" onchange="toggleLevelSelection(this)">';
-                html += '<label for="chinese-p45-' + studentCard.dataset.studentIndex + '" style="font-weight: 600;">Standard Chinese for P4 & P5 (Wednesday 7:00-8:00 PM)</label>';
-                html += '</div>';
-                html += '<div class="level-selection" id="chinese-p45-level-' + studentCard.dataset.studentIndex + '" style="display: none; margin-left: 2rem; margin-top: 0.75rem;">';
-                html += '<div class="level-option" onclick="selectLevel(this)">';
-                html += '<input type="radio" name="chinese-p45-level-' + studentCard.dataset.studentIndex + '" value="standard" required>';
-                html += '<span>Standard</span>';
-                html += '</div>';
-                html += '<div class="level-option" onclick="selectLevel(this)">';
-                html += '<input type="radio" name="chinese-p45-level-' + studentCard.dataset.studentIndex + '" value="foundation" required>';
-                html += '<span>Foundation</span>';
-                html += '</div>';
-                html += '</div>';
-                html += '</div>';
-            }
-            
-            if (grade === 'p6') {
-                html += '<div style="margin-bottom: 1.5rem;">';
-                html += '<div class="checkbox-group" style="margin-bottom: 0.5rem;">';
-                html += '<input type="checkbox" id="chinese-p6-' + studentCard.dataset.studentIndex + '" name="classes-' + studentCard.dataset.studentIndex + '" value="chinese-p6" onchange="toggleLevelSelection(this)">';
-                html += '<label for="chinese-p6-' + studentCard.dataset.studentIndex + '" style="font-weight: 600;">Standard Chinese for P6 (Wednesday 7:15-8:15 PM)</label>';
-                html += '</div>';
-                html += '<div class="level-selection" id="chinese-p6-level-' + studentCard.dataset.studentIndex + '" style="display: none; margin-left: 2rem; margin-top: 0.75rem;">';
-                html += '<div class="level-option" onclick="selectLevel(this)">';
-                html += '<input type="radio" name="chinese-p6-level-' + studentCard.dataset.studentIndex + '" value="standard" required>';
-                html += '<span>Standard</span>';
-                html += '</div>';
-                html += '<div class="level-option" onclick="selectLevel(this)">';
-                html += '<input type="radio" name="chinese-p6-level-' + studentCard.dataset.studentIndex + '" value="foundation" required>';
-                html += '<span>Foundation</span>';
-                html += '</div>';
+                
+                html += '<div class="level-selection">';
+                html += '<label class="level-option" onclick="selectSubjectLevel(this)">';
+                html += '<input type="radio" name="chinese-level-' + studentCard.dataset.studentIndex + '" value="standard">';
+                html += '<span>🀄 Chinese Standard</span>';
+                html += '</label>';
+                html += '<label class="level-option" onclick="selectSubjectLevel(this)">';
+                html += '<input type="radio" name="chinese-level-' + studentCard.dataset.studentIndex + '" value="foundation">';
+                html += '<span>🈁 Chinese Foundation</span>';
+                html += '</label>';
+                html += '<label class="level-option" onclick="selectSubjectLevel(this)">';
+                html += '<input type="radio" name="chinese-level-' + studentCard.dataset.studentIndex + '" value="none">';
+                html += '<span>❌ Not taking Chinese</span>';
+                html += '</label>';
                 html += '</div>';
                 html += '</div>';
             }
@@ -2143,33 +2373,15 @@
             classesContainer.innerHTML = html;
         }
 
-        function toggleLevelSelection(checkbox) {
-            const studentCard = checkbox.closest('.student-form-card');
-            const studentIndex = studentCard.dataset.studentIndex;
-            const classType = checkbox.value;
-            const levelDiv = document.getElementById(classType + '-level-' + studentIndex);
-            
-            if (levelDiv) {
-                levelDiv.style.display = checkbox.checked ? 'grid' : 'none';
-                // If unchecked, clear the radio selection
-                if (!checkbox.checked) {
-                    const radios = levelDiv.querySelectorAll('input[type="radio"]');
-                    radios.forEach(radio => {
-                        radio.checked = false;
-                        radio.closest('.level-option').classList.remove('selected');
-                    });
-                }
-            }
-        }
-
-        function selectLevel(element) {
-            const radio = element.querySelector('input[type="radio"]');
+        function selectSubjectLevel(labelElement) {
+            const radio = labelElement.querySelector('input[type="radio"]');
             radio.checked = true;
             
-            // Update visual selection
-            const allOptions = element.parentElement.querySelectorAll('.level-option');
+            // Update visual selection within this subject group
+            const parentDiv = labelElement.closest('.level-selection');
+            const allOptions = parentDiv.querySelectorAll('.level-option');
             allOptions.forEach(opt => opt.classList.remove('selected'));
-            element.classList.add('selected');
+            labelElement.classList.add('selected');
         }
 
         function addStudentForm() {
@@ -2261,6 +2473,65 @@
             }
         }
         
+        // Payment screenshot upload functions
+        let uploadedFile = null;
+        
+        function handleFileUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            // Check file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('File size exceeds 5MB. Please upload a smaller file.');
+                input.value = '';
+                return;
+            }
+            
+            // Check file type
+            if (!file.type.match('image.*')) {
+                alert('Please upload an image file (PNG, JPG, or JPEG).');
+                input.value = '';
+                return;
+            }
+            
+            uploadedFile = file;
+            
+            // Show preview
+            document.getElementById('upload-preview').style.display = 'block';
+            document.getElementById('file-name').textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+            
+            console.log('✅ File uploaded:', file.name);
+        }
+        
+        function removeFile() {
+            uploadedFile = null;
+            document.getElementById('payment-screenshot').value = '';
+            document.getElementById('upload-preview').style.display = 'none';
+            console.log('❌ File removed');
+        }
+        
+        function submitPayment() {
+            if (!uploadedFile) {
+                alert('⚠️ Please upload your payment screenshot before submitting.');
+                return;
+            }
+            
+            // In production, this would:
+            // 1. Upload file to cloud storage (S3, Firebase Storage, etc.)
+            // 2. Save payment record to database
+            // 3. Send notification to admin/visitation leader
+            // 4. Send confirmation email to parent
+            
+            alert(`✅ PAYMENT SUBMITTED SUCCESSFULLY!\n\nFile: ${uploadedFile.name}\nSize: ${(uploadedFile.size / 1024).toFixed(1)} KB\n\nYou will receive a confirmation email within 7-14 working days once your payment has been verified.\n\nIn production, this would:\n- Upload screenshot to cloud storage\n- Create payment record in database\n- Notify visitation leader Grace Wong\n- Send confirmation email to parent`);
+            
+            console.log('📤 Payment submission:', {
+                file: uploadedFile.name,
+                size: uploadedFile.size,
+                type: uploadedFile.type,
+                timestamp: new Date().toISOString()
+            });
+        }
+        
         // Role switching function
         function switchRole(role) {
             // Update role tabs
@@ -2269,16 +2540,23 @@
             });
             event.target.classList.add('active');
 
-            // Show/hide appropriate view buttons
+            // Show/hide appropriate view buttons and views
             const parentBtns = document.querySelectorAll('.parent-view');
             const adminBtns = document.querySelectorAll('.admin-view');
             
-            if (role === 'parent') {
+            if (role === 'welcome') {
+                // Hide all view buttons for welcome
+                parentBtns.forEach(btn => btn.style.display = 'none');
+                adminBtns.forEach(btn => btn.style.display = 'none');
+                // Show welcome view
+                document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+                document.getElementById('welcome-view').classList.add('active');
+            } else if (role === 'parent') {
                 parentBtns.forEach(btn => btn.style.display = 'inline-block');
                 adminBtns.forEach(btn => btn.style.display = 'none');
                 // Switch to first parent view
                 switchView('form');
-            } else {
+            } else if (role === 'admin') {
                 parentBtns.forEach(btn => btn.style.display = 'none');
                 adminBtns.forEach(btn => btn.style.display = 'inline-block');
                 // Switch to first admin view
