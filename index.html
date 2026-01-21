@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartKids Tuition Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --primary: #2196F3;
@@ -127,6 +128,38 @@
 
         .role-tab:hover:not(.active) {
             background: rgba(255,255,255,0.3);
+        }
+
+        .language-switcher {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            color: rgba(255,255,255,0.8);
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .lang-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.2);
         }
 
         .view-btn {
@@ -1199,10 +1232,19 @@
                     <p>City Harvest Children Services</p>
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-end;">
-                    <div class="role-selector">
-                        <button class="role-tab active" onclick="switchRole('welcome')">🎉 Welcome</button>
-                        <button class="role-tab" onclick="switchRole('parent')">👥 Parent View</button>
-                        <button class="role-tab" onclick="switchRole('admin')">🔒 Admin View</button>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <!-- Language Switcher -->
+                        <div class="language-switcher">
+                            <button class="lang-btn active" onclick="switchLanguage('en')">🇬🇧 English</button>
+                            <button class="lang-btn" onclick="switchLanguage('zh')">🇨🇳 中文</button>
+                        </div>
+                        
+                        <!-- Role Selector -->
+                        <div class="role-selector">
+                            <button class="role-tab active" onclick="switchRole('welcome')">🎉 Welcome</button>
+                            <button class="role-tab" onclick="switchRole('parent')">👥 Parent View</button>
+                            <button class="role-tab" onclick="switchRole('admin')">🔒 Admin View</button>
+                        </div>
                     </div>
                     <div class="view-switcher">
                         <!-- Welcome view (no sub-tabs) -->
@@ -1335,13 +1377,13 @@
             <!-- APPLICATION FORM VIEW -->
             <div id="form-view" class="view">
                 <div class="form-banner">
-                    <h2>Registration Form</h2>
-                    <p>Welcome! Please fill out this form to register your child for the SMARTKids Tuition Programme.</p>
+                    <h2 data-translate="formBanner">Registration Form</h2>
+                    <p data-translate="formWelcome">Welcome! Please fill out this form to register your child for the SMARTKids Tuition Programme.</p>
                 </div>
 
                 <div class="info-box">
-                    <h3>Programme Information</h3>
-                    <p><strong>Classes Available:</strong></p>
+                    <h3 data-translate="programInfo">Programme Information</h3>
+                    <p><strong data-translate="classesAvailable">Classes Available:</strong></p>
                     <ul>
                         <li><strong>English and Math</strong> for Nursery to Primary 6<br>Saturday 1:00 PM - 2:30 PM | Starting 10 January 2026</li>
                         <li><strong>Standard Chinese</strong> for Primary 4 & 5<br>Wednesday 7:00 PM - 8:00 PM | Starting 7 January 2026</li>
@@ -1499,7 +1541,7 @@
                     </div>
 
                     <div class="form-footer">
-                        <button type="submit" class="btn btn-primary" onclick="event.preventDefault(); alert('Application submitted! In production, this would save to database and send confirmation email.');">
+                        <button type="submit" class="btn btn-primary" onclick="handleFormSubmission(event)">
                             Submit Application
                         </button>
                         <p style="margin-top: 1rem; color: var(--neutral-700); font-size: 0.9rem;">
@@ -2215,6 +2257,315 @@
         // Log test database on page load
         console.log('📊 Test Database Loaded:', testDatabase);
         console.log('💡 You can access the test data via: testDatabase.applications');
+        
+        // Current language
+        let currentLanguage = 'en';
+        
+        // Translation data for Parent View pages
+        const translations = {
+            en: {
+                // Application Form
+                formBanner: "Registration Form",
+                formWelcome: "Welcome! Please fill out this form to register your child for the SMARTKids Tuition Programme.",
+                programInfo: "Programme Information",
+                classesAvailable: "Classes Available:",
+                registrationFee: "Registration Fee:",
+                oneTime: "one-time payment",
+                priorityNote: "Priority given to children from low-income families who do not have tuition.",
+                parentGuardianInfo: "Parent/Guardian Information",
+                fullName: "Full Name",
+                email: "Email",
+                mobileNumber: "Mobile Number",
+                relationship: "Relationship to Child",
+                selectRelationship: "Select...",
+                father: "Father",
+                mother: "Mother",
+                guardian: "Legal Guardian",
+                other: "Other",
+                studentInfo: "Student Information",
+                addStudent: "Add Another Student",
+                studentNumber: "Student #",
+                remove: "Remove",
+                studentFullName: "Student's Full Name",
+                dateOfBirth: "Date of Birth",
+                currentSchool: "Current School",
+                currentGrade: "Current Grade Level",
+                nursery: "Nursery",
+                selectClasses: "Select Classes",
+                selectGradeFirst: "Please select a grade level first",
+                upperPrimaryNote: "For Primary 4-6: Please select level for each subject",
+                notTaking: "Not taking",
+                householdInfo: "Household Information",
+                monthlyIncome: "Total Monthly Household Income",
+                householdSize: "Number of People in Household",
+                specialNeeds: "Special Needs / Medical Conditions (Optional)",
+                submitApplication: "Submit Application",
+                submissionNote: "After submission, you'll receive a confirmation email and updates on your application status within 7 working days.",
+                
+                // Approval Email
+                approvalTitle: "Application Approved!",
+                approvalSubtitle: "SMARTKids Tuition Programme",
+                dearParent: "Dear Mrs. Tan,",
+                approvalMessage: "We're delighted to inform you that <strong>Sarah Tan</strong> has been accepted into the SMARTKids Tuition Programme for Term 1, 2026!",
+                enrollmentDetails: "Enrollment Details",
+                studentName: "Student Name:",
+                class: "Class:",
+                schedule: "Schedule:",
+                firstClass: "First Class:",
+                location: "Location:",
+                paymentInfo: "Payment Information",
+                monthlyFee: "Monthly Tuition Fee:",
+                feeWaiver: "Fee Waiver:",
+                notApplicable: "Not Applicable",
+                paymentDue: "Payment Due:",
+                nextStep: "Next Step:",
+                paymentInstruction: "Please complete your payment to confirm Sarah's enrollment. You can pay easily through your parent portal:",
+                makePayment: "Make Payment Now",
+                visitationLeader: "Your Visitation Leader:",
+                visitationMessage: "will be supporting your family throughout this journey.",
+                questionsContact: "If you have any questions, please don't hesitate to reach out to Grace or email us at",
+                lookingForward: "We look forward to seeing Sarah in class!",
+                warmRegards: "Warm regards,",
+                teamSignature: "The SMARTKids Team",
+                churchName: "City Harvest Children Services",
+                
+                // Payment
+                paymentTitle: "Complete Your Payment",
+                paymentSummary: "Payment Summary",
+                student: "Student:",
+                term: "Term:",
+                dueDate: "Due Date:",
+                monthlyTuitionFee: "Monthly tuition fee",
+                scanToPay: "Scan to Pay with PayNow",
+                payNowUEN: "PayNow UEN:",
+                reference: "Reference:",
+                paymentConfirmation: "After payment, you will receive a confirmation email within <strong>7-14 working days</strong> once your payment has been verified.",
+                importantNote: "Important:",
+                uploadInstruction: "Please upload a screenshot of your payment confirmation below. Our team will verify your payment and send you the enrollment confirmation email with class details.",
+                uploadScreenshot: "Upload Payment Screenshot",
+                uploadPrompt: "After making payment, please upload a screenshot of your payment confirmation:",
+                clickToUpload: "Click to Upload Screenshot",
+                fileTypes: "PNG, JPG, or JPEG (Max 5MB)",
+                fileUploaded: "File Uploaded Successfully!",
+                submitPayment: "Submit Payment Confirmation",
+                needHelp: "Need Help?",
+                contactLeader: "Contact your visitation leader Grace Wong at",
+                
+                // Parent Dashboard
+                enrollmentStatus: "Enrollment Status",
+                enrolledActive: "Enrolled & Active",
+                grade: "Grade",
+                nextClass: "Next Class",
+                paymentStatus: "Payment Status",
+                paid: "Paid",
+                feeStatus: "Fee Status",
+                fullFee: "Full Fee",
+                upcomingClasses: "Upcoming Classes",
+                contactVisitation: "Contact Your Visitation Leader",
+                visitationNumber: "Visitation Number:",
+                sendMessage: "Send Message"
+            },
+            zh: {
+                // Application Form - 申请表
+                formBanner: "报名表格",
+                formWelcome: "欢迎！请填写此表格为您的孩子报名参加SMARTKids补习课程。",
+                programInfo: "课程信息",
+                classesAvailable: "可选课程：",
+                registrationFee: "注册费：",
+                oneTime: "一次性付款",
+                priorityNote: "注：优先考虑来自低收入家庭且没有补习的儿童。",
+                parentGuardianInfo: "家长/监护人信息",
+                fullName: "全名",
+                email: "电子邮件",
+                mobileNumber: "手机号码",
+                relationship: "与孩子的关系",
+                selectRelationship: "请选择...",
+                father: "父亲",
+                mother: "母亲",
+                guardian: "法定监护人",
+                other: "其他",
+                studentInfo: "学生信息",
+                addStudent: "添加另一位学生",
+                studentNumber: "学生 #",
+                remove: "删除",
+                studentFullName: "学生全名",
+                dateOfBirth: "出生日期",
+                currentSchool: "当前学校",
+                currentGrade: "当前年级",
+                nursery: "幼儿班",
+                selectClasses: "选择课程",
+                selectGradeFirst: "请先选择年级",
+                upperPrimaryNote: "小学4-6年级：请为每个科目选择水平",
+                notTaking: "不选",
+                householdInfo: "家庭信息",
+                monthlyIncome: "家庭月总收入",
+                householdSize: "家庭人数",
+                specialNeeds: "特殊需求/医疗状况（选填）",
+                submitApplication: "提交申请",
+                submissionNote: "提交后，您将在7个工作日内收到确认电子邮件和申请状态更新。",
+                
+                // Approval Email - 批准邮件
+                approvalTitle: "申请已批准！",
+                approvalSubtitle: "SMARTKids补习课程",
+                dearParent: "亲爱的陈太太，",
+                approvalMessage: "我们很高兴通知您，<strong>陈莎莉</strong>已被录取参加2026年第一学期的SMARTKids补习课程！",
+                enrollmentDetails: "注册详情",
+                studentName: "学生姓名：",
+                class: "课程：",
+                schedule: "时间表：",
+                firstClass: "首次上课：",
+                location: "地点：",
+                paymentInfo: "付款信息",
+                monthlyFee: "月补习费：",
+                feeWaiver: "费用减免：",
+                notApplicable: "不适用",
+                paymentDue: "付款截止日期：",
+                nextStep: "下一步：",
+                paymentInstruction: "请完成付款以确认莎莉的入学。您可以通过家长门户轻松付款：",
+                makePayment: "立即付款",
+                visitationLeader: "您的探访领袖：",
+                visitationMessage: "将在整个过程中为您的家庭提供支持。",
+                questionsContact: "如果您有任何问题，请随时联系Grace或发送电子邮件至",
+                lookingForward: "我们期待在课堂上见到莎莉！",
+                warmRegards: "诚挚问候，",
+                teamSignature: "SMARTKids团队",
+                churchName: "城市丰收儿童服务",
+                
+                // Payment - 付款
+                paymentTitle: "完成付款",
+                paymentSummary: "付款摘要",
+                student: "学生：",
+                term: "学期：",
+                dueDate: "截止日期：",
+                monthlyTuitionFee: "月补习费",
+                scanToPay: "扫描PayNow付款",
+                payNowUEN: "PayNow UEN：",
+                reference: "参考编号：",
+                paymentConfirmation: "付款后，您将在<strong>7-14个工作日</strong>内收到确认电子邮件，一旦您的付款得到验证。",
+                importantNote: "重要提示：",
+                uploadInstruction: "请在下方上传您的付款确认截图。我们的团队将验证您的付款并发送注册确认电子邮件和课程详情。",
+                uploadScreenshot: "上传付款截图",
+                uploadPrompt: "付款后，请上传您的付款确认截图：",
+                clickToUpload: "点击上传截图",
+                fileTypes: "PNG、JPG 或 JPEG（最大5MB）",
+                fileUploaded: "文件上传成功！",
+                submitPayment: "提交付款确认",
+                needHelp: "需要帮助？",
+                contactLeader: "联系您的探访领袖Grace Wong",
+                
+                // Parent Dashboard - 家长仪表板
+                enrollmentStatus: "注册状态",
+                enrolledActive: "已注册并活跃",
+                grade: "年级",
+                nextClass: "下次上课",
+                paymentStatus: "付款状态",
+                paid: "已付款",
+                feeStatus: "费用状态",
+                fullFee: "全额费用",
+                upcomingClasses: "即将到来的课程",
+                contactVisitation: "联系您的探访领袖",
+                visitationNumber: "探访编号：",
+                sendMessage: "发送消息"
+            }
+        };
+        
+        // Language switching function
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update language buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update all translatable elements
+            updateTranslations();
+            
+            console.log('🌐 Language switched to:', lang === 'en' ? 'English' : '中文');
+        }
+        
+        // Update all translations on the page
+        function updateTranslations() {
+            const t = translations[currentLanguage];
+            
+            // Update all elements with data-translate attribute
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (t[key]) {
+                    if (element.tagName === 'INPUT' && element.type !== 'submit') {
+                        element.placeholder = t[key];
+                    } else if (element.tagName === 'OPTION') {
+                        element.textContent = t[key];
+                    } else {
+                        element.innerHTML = t[key];
+                    }
+                }
+            });
+        }
+        
+        // Confetti celebration for form submission
+        function celebrateSubmission() {
+            // Confetti from left
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { x: 0, y: 0.6 },
+                colors: ['#2196F3', '#FF6B9D', '#FFA726', '#4CAF50', '#FFC107']
+            });
+            
+            // Confetti from right
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { x: 1, y: 0.6 },
+                colors: ['#2196F3', '#FF6B9D', '#FFA726', '#4CAF50', '#FFC107']
+            });
+            
+            // Big burst from center
+            setTimeout(() => {
+                confetti({
+                    particleCount: 150,
+                    spread: 120,
+                    origin: { y: 0.5 },
+                    colors: ['#2196F3', '#FF6B9D', '#FFA726', '#4CAF50', '#FFC107'],
+                    scalar: 1.2
+                });
+            }, 200);
+            
+            // Final shower
+            setTimeout(() => {
+                confetti({
+                    particleCount: 50,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#2196F3', '#FF6B9D', '#FFA726']
+                });
+                confetti({
+                    particleCount: 50,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#4CAF50', '#FFC107', '#FF6B9D']
+                });
+            }, 400);
+        }
+        
+        // Handle form submission with celebration
+        function handleFormSubmission(event) {
+            event.preventDefault();
+            
+            // Trigger confetti celebration!
+            celebrateSubmission();
+            
+            // Show success message
+            setTimeout(() => {
+                alert('🎉 APPLICATION SUBMITTED SUCCESSFULLY! 🎉\n\nThank you for applying to the SMARTKids Tuition Programme!\n\nYou will receive:\n✅ Confirmation email within 24 hours\n✅ Application status updates within 7 working days\n✅ SMS notification when reviewed\n\nYour application reference number: TN2025-' + (Math.floor(Math.random() * 1000) + 100) + '\n\nIn production, this would:\n- Save all student data to database\n- Generate application ID\n- Send confirmation email to parent\n- Notify admin team\n- Create records for each student');
+            }, 800);
+            
+            console.log('🎊 Form submitted with celebration!');
+        }
         
         // Student form management
         let studentFormCount = 1;
